@@ -8,7 +8,7 @@ const externals = [
     'express',
     'body-parser',
     'axios',
-    'fireorm',
+    'rxjs',
     'reflect-metadata',
     'routing-controllers',
     'firebase-functions',
