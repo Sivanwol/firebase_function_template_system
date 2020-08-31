@@ -1,0 +1,9 @@
+## Compiled JavaScript files
+**/*.js
+**/*.js.map
+!rollup.config.js
+# Typescript v1 declaration files
+typings/
+firebase-*.log
+node_modules/
+serviceAccountKey.json
