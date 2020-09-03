@@ -43,6 +43,7 @@
     "babel-jest": "^26.3.0",
     "chai": "4.2.0",
     "concurrently": "5.3.0",
+    "firebase-functions-test": "^0.2.2",
     "jest": "^26.4.2",
     "mocha": "8.1.1",
     "rimraf": "3.0.2",

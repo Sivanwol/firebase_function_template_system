@@ -1,12 +1,22 @@
-import { IsString, IsBoolean, IsOptional, IsDateString } from "class-validator";
+import { IsString, IsBoolean, IsOptional, IsDateString, IsObject } from "class-validator";
+import moment = require("moment");
 
-export abstract class BaseResponse<T> {
+export class BaseResponse<T> {
     @IsBoolean()
-    public status: boolean;
+    private status: boolean;
+    get Status(): boolean { return this.status; }
+    set Status(value: boolean) { this.status = value; }
     @IsOptional()
     @IsString()
-    public error: string;
-    public data: T;
+    private error: string;
+    get Errors(): string { return this.error; }
+    set Errors(value: string) { this.error = value; }
+    @IsOptional()
+    @IsObject()
+    private data: T;
+    get Data(): T { return this.data; }
+    set Data(value: T) { this.data = value; }
     @IsDateString()
-    public request_at: string;
+    private request_at: string = moment().format('YYYY-MM-DD HH:mm:ss');
+    get RequestAt(): string { return this.request_at; }
 }

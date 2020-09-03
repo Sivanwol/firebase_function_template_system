@@ -1,7 +1,5 @@
-import { BaseResponse } from "../common/base.response";
 import { IsString } from "class-validator";
-class DataCreateResponse {
+export class CreateResponse {
     @IsString()
     public insert_id: string;
 }
-export class CreateResponse extends BaseResponse<DataCreateResponse> { }

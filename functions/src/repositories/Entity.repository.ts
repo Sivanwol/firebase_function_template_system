@@ -1,6 +1,5 @@
 import * as admin from 'firebase-admin';
 import * as moment from 'moment';
-import { TestObject } from '../models/TestObject';
 import { EntitiesModel } from '../models/entities.model';
 import { EntityHoursModel } from '../models/entityHours.model';
 import collection from '../common/collections';

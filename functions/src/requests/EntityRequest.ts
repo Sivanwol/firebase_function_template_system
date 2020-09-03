@@ -1,5 +1,5 @@
 import { DayOfWeek, EntityType } from '../common/enums';
-import { IsBoolean, IsInt, Min, Max, IsOptional, IsEnum, IsUrl, MaxLength, IsString, ValidateNested, IsPhoneNumber, IsISO31661Alpha2, MinLength } from './node_modules/class-validator';
+import { IsBoolean, IsInt, Min, Max, IsOptional, IsEnum, IsUrl, MaxLength, IsString, ValidateNested, IsPhoneNumber, IsISO31661Alpha2, MinLength } from 'class-validator';
 import { EntitiesModel } from '../models/entities.model';
 import { EntityHoursModel } from '../models/entityHours.model';
 
