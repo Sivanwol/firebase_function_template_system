@@ -2,7 +2,6 @@ import { JsonController, Get, Req, Res } from "routing-controllers";
 
 @JsonController('/ping')
 export class PingController {
-
    @Get("/routes")
    getRoutes() {
       return {

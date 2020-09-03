@@ -1,5 +1,5 @@
 import { TestObject } from "../models/TestObject";
-import TestObjectRepository from '../repositories/TestObject'
+import TestObjectRepository from '../repositories/TestObject.repository'
 class TestService {
     async addNewTest(data: TestObject) {
         await TestObjectRepository.create(data);

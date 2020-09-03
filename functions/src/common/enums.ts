@@ -14,3 +14,14 @@ export enum AssetType {
     Audio,
     Icon
 }
+
+export enum EntityType {
+    Shop,
+    Restaurant,
+}
+export enum HttpStatusCode {
+    NotAuthorizate = 403,
+    NotFound = 404,
+    Error = 500,
+    Success = 200
+}

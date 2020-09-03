@@ -4,6 +4,7 @@
     "experimentalDecorators": true,
     "module": "commonjs",
     "noImplicitReturns": true,
+    "strictPropertyInitialization": false,
     "noUnusedLocals": true,
     "outDir": "lib",
     "sourceMap": true,
