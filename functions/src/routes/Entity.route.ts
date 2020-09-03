@@ -15,7 +15,6 @@ export class EntityController {
             dta.insert_id = await EntityService.createEntity(entityBody);
             response.Data = dta;
             response.Status = true;
-            throw new Error("EntityController:createEntity")
         } catch (err) {
             logger.error("@POST(/entity/create) EntityController:createEntity has an error", err);
             response.Data = new CreateResponse();
