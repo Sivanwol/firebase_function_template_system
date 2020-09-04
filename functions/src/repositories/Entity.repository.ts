@@ -11,9 +11,10 @@ class EntityRepository {
     }
     async createEntityHour(entities: EntityHoursModel[]) {
         const batch = admin.firestore().batch();
-        const docRef = await admin.firestore().collection(collection.collectionEntityHours).doc();
-        entities.forEach(entity => {
-            batch.create(docRef, entity);
+
+        const docRef = await admin.firestore().collection(collection.collectionEntityHours);
+        entities.forEach(async entity => {
+            batch.set(docRef.doc(), entity);
         });
         await batch.commit();
     }

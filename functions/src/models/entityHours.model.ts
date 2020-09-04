@@ -3,8 +3,8 @@ import { DayOfWeek } from "../common/enums";
 export interface EntityHoursModel extends BaseModel {
     entity_id: string;
     day: DayOfWeek;
-    from: number;
-    to: number;
+    from: string;
+    to: string;
     close: boolean;
     all_day: boolean;
 }
