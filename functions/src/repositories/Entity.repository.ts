@@ -45,6 +45,10 @@ class EntityRepository {
         });
         await batch.commit();
     }
+    async deleteEntity(entity_id: string) {
+        await admin.firestore().collection(collection.collectionEntityHours).doc(entity_id).delete();
+        await admin.firestore().collection(collection.collectionEntities).doc(entity_id).delete();
+    }
 }
 
 export default new EntityRepository();
