@@ -8,7 +8,10 @@ class EntityService {
             data.hours = []; // something send wrong hours need be 7 recorded or null/undefined (when user didn't want set up)
         }
         const docRef = await EntityRepository.create(data.toEntityModel());
-        await EntityRepository.createEntityHour(data.toEntityHoursModel(docRef.id));
+        if (data.hours.length === 7) {
+            await EntityRepository.createEntityHour(data.toEntityHoursModel(docRef.id));
+
+        }
         return docRef.id;
     }
 

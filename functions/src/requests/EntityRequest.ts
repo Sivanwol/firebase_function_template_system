@@ -70,7 +70,7 @@ export class EntityRequest {
     public city: string;
     @IsOptional()
     @ValidateNested()
-    public socials: EntitySocial;
+    public socials?: EntitySocial;
 
     public toEntityModel(): EntitiesModel {
         const entity: EntitiesModel = {

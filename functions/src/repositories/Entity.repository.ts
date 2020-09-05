@@ -1,18 +1,15 @@
-import * as admin from 'firebase-admin';
-import * as moment from 'moment';
 import { EntitiesModel } from '../models/entities.model';
 import { EntityHoursModel } from '../models/entityHours.model';
 import collection from '../common/collections';
+import { FirebaseHandler } from '../common/firebase';
 class EntityRepository {
     async create(entity: EntitiesModel) {
-        entity.create_at = moment().toDate();
-        entity.update_at = moment().toDate();
-        return await admin.firestore().collection(collection.collectionEntities).add(entity);
+        return await FirebaseHandler.db.collection(collection.collectionEntities).add(entity);
     }
     async createEntityHour(entities: EntityHoursModel[]) {
-        const batch = admin.firestore().batch();
+        const batch = FirebaseHandler.db.batch();
 
-        const docRef = await admin.firestore().collection(collection.collectionEntityHours);
+        const docRef = await FirebaseHandler.db.collection(collection.collectionEntityHours);
         entities.forEach(async entity => {
             batch.set(docRef.doc(), entity);
         });
@@ -20,12 +17,12 @@ class EntityRepository {
     }
 
     async locateEntity(entity_id: string) {
-        const docRef = await admin.firestore().collection(collection.collectionEntities).doc(entity_id);
+        const docRef = await FirebaseHandler.db.collection(collection.collectionEntities).doc(entity_id);
         return await docRef.get();
     }
 
     async updateEntity(entity_id: string, entity: EntitiesModel) {
-        const docRef = await admin.firestore().collection(collection.collectionEntities).doc(entity_id);
+        const docRef = await FirebaseHandler.db.collection(collection.collectionEntities).doc(entity_id);
         await docRef.set({
             name: entity.name,
             alias_name: entity.alias_name,
@@ -37,17 +34,17 @@ class EntityRepository {
         return true;
     }
     async updateEntityHours(entity_id: string, entities: EntityHoursModel[]) {
-        await admin.firestore().collection(collection.collectionEntityHours).doc(entity_id).delete();
-        const batch = admin.firestore().batch();
-        const docHourRef = await admin.firestore().collection(collection.collectionEntityHours);
+        await FirebaseHandler.db.collection(collection.collectionEntityHours).doc(entity_id).delete();
+        const batch = FirebaseHandler.db.batch();
+        const docHourRef = await FirebaseHandler.db.collection(collection.collectionEntityHours);
         entities.forEach(async entity => {
             batch.set(docHourRef.doc(), entity);
         });
         await batch.commit();
     }
     async deleteEntity(entity_id: string) {
-        await admin.firestore().collection(collection.collectionEntityHours).doc(entity_id).delete();
-        await admin.firestore().collection(collection.collectionEntities).doc(entity_id).delete();
+        await FirebaseHandler.db.collection(collection.collectionEntityHours).doc(entity_id).delete();
+        await FirebaseHandler.db.collection(collection.collectionEntities).doc(entity_id).delete();
     }
 }
 

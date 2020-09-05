@@ -7,3 +7,8 @@ typings/
 firebase-*.log
 node_modules/
 serviceAccountKey.json
+.vscode/*
+!.vscode/launch.json
+.nyc_output
+coverage
+node_modules/

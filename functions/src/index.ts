@@ -6,6 +6,7 @@ import * as admin from "firebase-admin"
 import { Application } from "express";
 import { createExpressServer } from "routing-controllers";
 import { apiRoutes } from "./routes";
+import { FirebaseHandler } from "./common/firebase";
 class Api {
   public app: Application;
 
@@ -36,8 +37,7 @@ class Api {
   }
 
   private firebaseSetup(): void {
-    admin.initializeApp({ credential: admin.credential.applicationDefault() });
-    admin.firestore().settings({ timestampsInSnapshots: true });
+    FirebaseHandler.setupFirebase(admin);
   }
 }
 // webApi is your functions name, and you will pass this.api as a parameter
