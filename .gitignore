@@ -3,3 +3,4 @@
 /functions/lib
 /functions/tmp
 /functions/*.log
+node_modules

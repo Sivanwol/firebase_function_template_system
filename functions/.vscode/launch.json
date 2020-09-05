@@ -8,6 +8,7 @@
             "type": "node",
             "name": "vscode-jest-tests",
             "request": "launch",
+            "preLaunchTask": "firebase emulators:start --only functions,firestore",
             "program": "${workspaceFolder}/node_modules/jest/bin/jest",
             "args": [
                 "${fileBasenameNoExtension}",

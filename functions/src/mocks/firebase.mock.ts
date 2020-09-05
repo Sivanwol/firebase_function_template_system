@@ -1,8 +1,12 @@
 /* tslint:disable */
 import * as EventEmitter from "eventemitter3";
 import { FirebaseHandler } from "../common/firebase";
-// import * as faker from 'faker';
+// import * as admin from 'firebase-admin';
 
+// import * as faker from 'faker';
+// const update = jest.fn();
+// const doc = jest.fn(() => ({update}));
+// const collection = jest.spyOn(admin.firestore(), 'collection').mockReturnValue((({ doc } as unknown) as any));
 const authEmitter = new EventEmitter();
 let isSignIn = true;
 const user = {
@@ -78,25 +82,7 @@ const mockFirebase: any = {
             }),
         }),
         firestore: jest.fn().mockReturnValue({
-            collection: jest.fn().mockReturnValue({
-                doc: jest.fn().mockReturnValue({
-                    add: jest.fn().mockResolvedValue({
-                        id: "abc123",
-                    }),
-                    set: jest.fn().mockResolvedValue({
-                        uid: "abc123",
-                    }),
-                }),
-                add: async (entity: any) => {
-                    return {
-                        id: "abc123",
-                        get: () => {
-                            entity.id = "abc123";
-                            return jest.fn().mockResolvedValue(entity);
-                        },
-                    };
-                },
-            }),
+            // collection,
         }),
     }),
     auth: {

@@ -10,7 +10,7 @@
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log",
     "lint": "tslint -p tsconfig.json src/**/*.ts -e tests/**/*.ts",
-    "test": "cross-env FIREBASE_FIRESTORE_EMULATOR_ADDRESS='127.0.0.1:8080' jest"
+    "test": "firebase emulators:start --only functions,firestore && jest"
   },
   "main": "lib/index.js",
   "dependencies": {

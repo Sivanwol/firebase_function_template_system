@@ -23,8 +23,17 @@ describe('Entity Service Testing', () => {
     })
     test('should create entity with empty opening hour', async () => {
         const insert_id = await EntityService.createEntity(entityData);
-        expect(insert_id).toEqual('abc123');
-
+        const entity = await EntityService.locateEntity(insert_id);
+        if (entity) {
+            expect(insert_id).toEqual(entity.id);
+            expect(entity.name).toEqual(entityData.name);
+            expect(entity.type).toEqual(entityData.type);
+            expect(entity.country).toEqual(entityData.country);
+            expect(entity.name).toEqual(entityData.name);
+            expect(entity.phone).toEqual(entityData.phone);
+        } else {
+            expect(entity).not.toBeUndefined();
+        }
 
     });
 });
