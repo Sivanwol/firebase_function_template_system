@@ -1,12 +1,17 @@
 import { EntityRequest } from "../requests/EntityRequest";
-import { JsonController, Post, Body, Put, Param, Delete } from "routing-controllers";
+import { JsonController, Post, Body, Get, Put, Param, Delete, QueryParams } from "routing-controllers";
 import { CreateResponse } from "../responses/create.response";
 import EntityService from "../services/entity.service";
 import { logger } from "firebase-functions";
 import { BaseResponse } from "../common/base.response";
 import { OperationResponse } from "../responses/operation.response";
+import { ListQuery } from "../requests/queries/list.query";
 @JsonController("/entity")
 export class EntityController {
+    @Get("/")
+    public async listEntities(@QueryParams() query: ListQuery): Promise<BaseResponse<ListResponse<>> {
+
+    }
     @Post("/")
     public async createEntity(@Body() entityBody: EntityRequest): Promise<BaseResponse<CreateResponse>> {
         logger.info("request @POST(/entity) EntityController:createEntity" , entityBody);

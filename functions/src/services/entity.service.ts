@@ -4,20 +4,23 @@ import EntityRepository from "../repositories/Entity.repository";
 import { EntitiesModel } from "../models/entities.model";
 class EntityService {
     // TODO need add validation process so no same entity clone will be able to create
-    public async createEntity(data: EntityRequest): Promise<string> {
+    public async createEntity(data: EntityRequest): Promise<string | null> {
         if (!data.hasOwnProperty("hours") || (data.hours && data.hours.length !== 7)) {
             data.hours = []; // something send wrong hours need be 7 recorded or null/undefined (when user didn't want set up)
         }
-        const docRef = await EntityRepository.create(data.toEntityModel());
-        if (data.hours.length === 7) {
-            await EntityRepository.createEntityHour(data.toEntityHoursModel(docRef.id));
+        const docRef = await EntityRepository.create<EntitiesModel | undefined>(data.toEntityModel());
+        if (docRef) {
+            if (data.hours.length === 7) {
+                await EntityRepository.createEntityHour(data.toEntityHoursModel(docRef.id));
 
+            }
         }
-        return docRef.id;
+        const entity_id = docRef!.id;
+        return (entity_id) ? entity_id : null;
     }
-    public async locateEntity(entity_id: string): Promise<EntitiesModel|undefined> {
-        const docRef = await EntityRepository.locateEntity(entity_id);
-        const entity: EntitiesModel|undefined = docRef.data() as EntitiesModel;
+
+    public async locateEntity(entity_id: string): Promise<EntitiesModel | undefined> {
+        const entity = await EntityRepository.locateEntity<EntitiesModel>(entity_id);
         if (entity) {
             entity.id = entity_id;
         }
@@ -45,4 +48,4 @@ class EntityService {
         return false;
     }
 }
-export default new EntityService;
+export default new EntityService();
