@@ -3,14 +3,15 @@ import { JsonController, Post, Body, Get, Put, Param, Delete, QueryParams } from
 import { CreateResponse } from "../responses/create.response";
 import EntityService from "../services/entity.service";
 import { logger } from "firebase-functions";
-import { BaseResponse } from "../common/base.response";
+import { BaseResponse, ListResponse } from "../common/base.response";
 import { OperationResponse } from "../responses/operation.response";
 import { ListQuery } from "../requests/queries/list.query";
+import { EntityResponse } from "../responses/entity.response";
 @JsonController("/entity")
 export class EntityController {
     @Get("/")
-    public async listEntities(@QueryParams() query: ListQuery): Promise<BaseResponse<ListResponse<>> {
-
+    public async listEntities(@QueryParams() query: ListQuery): Promise<BaseResponse<ListResponse<EntityResponse>>> {
+        return null;
     }
     @Post("/")
     public async createEntity(@Body() entityBody: EntityRequest): Promise<BaseResponse<CreateResponse>> {

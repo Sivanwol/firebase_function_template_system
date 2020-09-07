@@ -2,6 +2,7 @@
 import { EntityRequest } from "../requests/EntityRequest";
 import EntityRepository from "../repositories/Entity.repository";
 import { EntitiesModel } from "../models/entities.model";
+import { SortDirection } from "../common/enums";
 class EntityService {
     // TODO need add validation process so no same entity clone will be able to create
     public async createEntity(data: EntityRequest): Promise<string | null> {
@@ -19,6 +20,11 @@ class EntityService {
         return (entity_id) ? entity_id : null;
     }
 
+    public async listEntities(per_page: number, page: number ,  sortField: string, sortDirection: SortDirection) {
+        // TODO this what need be implemented
+        // https://stackoverflow.com/questions/50922417/how-to-paginate-or-infinite-scroll-by-number-of-items-in-firestore
+        // https://firebase.google.com/docs/firestore/query-data/query-cursors
+    }
     public async locateEntity(entity_id: string): Promise<EntitiesModel | undefined> {
         const entity = await EntityRepository.locateEntity<EntitiesModel>(entity_id);
         if (entity) {

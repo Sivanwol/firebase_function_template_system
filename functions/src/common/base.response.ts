@@ -1,5 +1,6 @@
 import { IsString, IsBoolean, IsOptional, IsDateString, IsObject } from "class-validator";
 import moment = require("moment");
+import { SortDirection } from "./enums";
 
 export class BaseResponse<T> {
     @IsBoolean()
@@ -19,4 +20,15 @@ export class BaseResponse<T> {
     @IsDateString()
     private request_at: string = moment().format('YYYY-MM-DD HH:mm:ss');
     get RequestAt(): string { return this.request_at; }
+}
+
+export class ListResponse<T> {
+    public meta: {
+        total_entities: number,
+        last_offset_id: string,
+        sort_field: string,
+        sort_direction: SortDirection
+    };
+    public items: T[] = [];
+
 }

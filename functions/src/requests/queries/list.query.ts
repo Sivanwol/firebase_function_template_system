@@ -1,17 +1,16 @@
-import { SortDirection } from '../../common/enums';
-import { IsPositive, IsEnum, IsOptional, IsNumber, IsString } from 'class-validator';
+import { SortDirection } from "../../common/enums";
+import { IsPositive, IsEnum, IsOptional, IsNumber, IsString } from "class-validator";
 export class ListQuery {
     @IsOptional()
     @IsNumber()
     @IsPositive()
-    public limit: number = 20;
-    @IsOptional()
-    @IsNumber()
-    @IsPositive()
-    public page: number = 1;
+    public limit = 20;
     @IsOptional()
     @IsString()
-    public sortField: string = 'id';
+    public offset_id: string;
+    @IsOptional()
+    @IsString()
+    public sortField = "id";
 
     @IsOptional()
     @IsEnum(SortDirection)
