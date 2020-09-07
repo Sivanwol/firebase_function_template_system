@@ -1,14 +1,16 @@
 {
   "compilerOptions": {
+    "lib": ["es2017"],
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "module": "commonjs",
     "noImplicitReturns": true,
+    "allowJs": true,
     "strictPropertyInitialization": false,
     "noUnusedLocals": true,
     "outDir": "lib",
     "sourceMap": true,
-    "strict": true,
+    "strict": false,
     "target": "es2017"
   },
   "compileOnSave": true,

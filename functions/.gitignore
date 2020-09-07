@@ -12,3 +12,4 @@ serviceAccountKey.json
 .nyc_output
 coverage
 node_modules/
+!jest.config.js
