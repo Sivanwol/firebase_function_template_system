@@ -4,7 +4,8 @@
     "build:dev": "rimraf ./lib/**/* && tsc --watch",
     "build": "rimraf ./tmp && rimraf ./lib/**/* && tsc -p tsconfig-build.json && rollup -c rollup.config.js && rimraf ./tmp",
     "serve:dev": "concurrently \"npm run build:dev\" \"firebase emulators:start --only functions,firestore --inspect-functions\"",
-    "serve": "npm run build && firebase emulators:start --only functions,firestore",
+    "serve": "npm run build ",
+    "emulators:start": "firebase emulators:start --only functions,firestore",
     "shell": "firebase functions:shell",
     "start": "npm run build && npm run shell",
     "deploy": "firebase deploy --only functions",
@@ -24,8 +25,7 @@
     "firebase-functions": "3.9.1",
     "moment": "^2.27.0",
     "reflect-metadata": "^0.1.13",
-    "routing-controllers": "^0.9.0-alpha.6",
-    "rxjs": "^6.6.2"
+    "routing-controllers": "^0.9.0-alpha.6"
   },
   "devDependencies": {
     "@babel/core": "^7.11.4",

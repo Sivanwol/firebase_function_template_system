@@ -2,7 +2,7 @@ import { EntitiesModel } from '../models/entities.model';
 import { EntityHoursModel } from '../models/entityHours.model';
 import collection from '../common/collections';
 import { FirebaseHandler } from '../common/firebase';
-import * as firebase from 'firebase-admin';
+
 class EntityRepository {
     public async create<T>(entity: EntitiesModel): Promise<T | undefined>  {
         const docRef = await FirebaseHandler.db.collection(collection.collectionEntities).add(entity);
@@ -13,11 +13,11 @@ class EntityRepository {
         return undefined;
     }
     public async createEntityHour(entities: EntityHoursModel[]): Promise<void> {
-        const batch = FirebaseHandler.db.batch();
+        const batch = await FirebaseHandler.db.batch();
 
         const docRef = await FirebaseHandler.db.collection(collection.collectionEntityHours);
         entities.forEach(async entity => {
-            batch.set(docRef.doc(), entity);
+            await batch.set(docRef.doc(), entity);
         });
         await batch.commit();
     }
