@@ -24,6 +24,19 @@ class EntityRepository {
         }
         return null;
     }
+
+    public async getEntityHours(id: string): Promise<BaseListDataModel<EntityHoursModel>> {
+        const docs = await firebase.firestore().collection(collection.collectionEntityHours).where("entity_id", "==", id).get();
+        let items = [];
+        if (docs && !docs.empty) {
+            items = docs.docs.map(async doc => {
+                const temp = await doc.data() as EntityHoursModel;
+                temp.id = doc.id;
+                return temp;
+            });
+        }
+        return {size:docs.size, items};
+    }
     public async list(per_page: number , offset_id: string , sort_field: string, sort_direction: SortDirection): Promise<BaseListDataModel<EntitiesModel>> {
         const sort = (sort_direction === SortDirection.ASC)? "asc" : "desc" ;
         const docs = await firebase.firestore().collection(collection.collectionEntities)
@@ -36,7 +49,11 @@ class EntityRepository {
         // https://firebase.google.com/docs/firestore/query-data/query-cursors
         let items = [];
         if (docs && !docs.empty) {
-            items = docs.docs.map(async doc => await doc.data() as EntitiesModel);
+            items = docs.docs.map(async doc => {
+                const temp = await doc.data() as EntitiesModel;
+                temp.id = doc.id;
+                return temp;
+            });
         }
         return { size: docs.size , items};
     }
@@ -50,7 +67,7 @@ class EntityRepository {
         await batch.commit();
     }
 
-    public async locateEntity<T>(entity_id: string): Promise<T | undefined> {
+    public async locateEntity(entity_id: string): Promise<EntityHoursModel | undefined> {
         const docRef = await firebase.firestore().collection(collection.collectionEntities).doc(entity_id);
         const doc = await docRef.get();
         if (doc && doc.exists) {

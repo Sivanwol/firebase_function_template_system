@@ -25,7 +25,7 @@ class EntityService {
         return await EntityRepository.get(entity_id);
     }
 
-    public async listEntities(per_page: number, offset_id: string, sortField: string, sortDirection: SortDirection): Promise<ListResponse> {
+    public async listEntities(per_page: number, offset_id: string, sortField: string, sortDirection: SortDirection): Promise<ListResponse<EntitiesModel>> {
         const list = await EntityRepository.list(per_page, offset_id, sortField, sortDirection);
         return {
             items: list.items,
