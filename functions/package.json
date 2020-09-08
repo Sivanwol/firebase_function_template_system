@@ -1,8 +1,9 @@
 {
   "name": "functions",
   "scripts": {
-    "build:dev": "rimraf ./lib/**/* && tsc --watch",
-    "build": "rimraf ./tmp && rimraf ./lib/**/* && tsc -p tsconfig-build.json && rollup -c rollup.config.js && rimraf ./tmp",
+    "clean": "rimraf ./tmp && rimraf ./lib/**/*",
+    "build:dev": "npm run clean && tsc --watch",
+    "build": "npm run clean && tsc -p tsconfig-build.json && rollup -c rollup.config.js && rimraf ./tmp",
     "serve:dev": "concurrently \"npm run build:dev\" \"firebase emulators:start --only functions,firestore --inspect-functions\"",
     "serve": "npm run build ",
     "emulators:start": "firebase emulators:start --only functions,firestore",
@@ -11,7 +12,7 @@
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log",
     "lint": "tslint -p tsconfig.json src/**/*.ts -e tests/**/*.ts",
-    "test": "firebase emulators:start --only functions,firestore && jest"
+    "test": "jest"
   },
   "main": "lib/index.js",
   "dependencies": {
