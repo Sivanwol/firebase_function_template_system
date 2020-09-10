@@ -38,9 +38,13 @@ class EntityService {
         }
     }
     public async locateEntity(entity_id: string): Promise<EntitiesModel | undefined> {
-        const entity = await EntityRepository.locateEntity<EntitiesModel>(entity_id);
+        const entity = await EntityRepository.locateEntity(entity_id);
         if (entity) {
             entity.id = entity_id;
+            const hours = await EntityRepository.getEntityHours(entity_id);
+            if (hours.size === 7) {
+                entity.hours = hours.items;
+            }
         }
         return entity;
     }

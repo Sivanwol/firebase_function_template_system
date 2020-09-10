@@ -67,11 +67,11 @@ class EntityRepository {
         await batch.commit();
     }
 
-    public async locateEntity(entity_id: string): Promise<EntityHoursModel | undefined> {
+    public async locateEntity(entity_id: string): Promise<EntitiesModel | undefined> {
         const docRef = await firebase.firestore().collection(collection.collectionEntities).doc(entity_id);
         const doc = await docRef.get();
         if (doc && doc.exists) {
-            return await doc.data() as T;
+            return await doc.data() as EntitiesModel;
         }
         return undefined;
     }
