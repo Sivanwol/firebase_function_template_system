@@ -22,7 +22,7 @@ class EntityService {
     }
 
     public async getEntity(entity_id: string): Promise<EntitiesModel | null> {
-        return await EntityRepository.get(entity_id);
+        return await this.locateEntity(entity_id);
     }
 
     public async listEntities(per_page: number, offset_id: string, sortField: string, sortDirection: SortDirection): Promise<ListResponse<EntitiesModel>> {
