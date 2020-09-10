@@ -49,17 +49,17 @@ class EntityService {
         return entity;
     }
 
-    public async updateEntity(entity_id: string, data: EntityRequest): Promise<boolean> {
+    public async updateEntity(entity_id: string, data: EntityRequest): Promise<EntitiesModel | null > {
         const foundEntity = await this.locateEntity(entity_id);
         if (foundEntity) {
             if (!data.hasOwnProperty("hours") || (data.hours && data.hours.length !== 7)) {
                 data.hours = []; // incorrect format so we ignore and won't be update the hours
             }
             await EntityRepository.updateEntity(entity_id, data.toEntityModel());
-            await EntityRepository.createEntityHour(data.toEntityHoursModel(entity_id));
-            return true;
+            await EntityRepository.updateEntityHours(entity_id,data.toEntityHoursModel(entity_id));
+            return await this.getEntity(entity_id);
         }
-        return false;
+        return null;
     }
     public async deleteEntity(entity_id: string): Promise<boolean> {
         const foundEntity = await this.locateEntity(entity_id);

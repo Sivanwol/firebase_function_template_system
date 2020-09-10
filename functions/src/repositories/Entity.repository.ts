@@ -78,7 +78,7 @@ class EntityRepository {
 
     public async updateEntity(entity_id: string, entity: EntitiesModel): Promise<boolean> {
         const docRef = await firebase.firestore().collection(collection.collectionEntities).doc(entity_id);
-        await docRef.set({
+        await docRef.set({ ...entity ,
             name: entity.name,
             alias_name: entity.alias_name,
             description: entity.description,
