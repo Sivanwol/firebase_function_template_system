@@ -5,8 +5,6 @@ import { EntityRequest, EntityHoursRequest } from '../../requests/EntityRequest'
 import EntityService from '../entity.service';
 import * as faker from 'faker';
 import { EntityType } from '../../common/enums';
-// import collection from '../../common/collections';
-// import { FirebaseHandler } from '../../common/firebase';
 import '../../mocks/firebase.mock'
 let entityData = new EntityRequest();
 describe('Entity Service Testing', () => {
@@ -111,19 +109,18 @@ describe('Entity Service Testing', () => {
             expect(insert_id).not.toBeNull();
             entityData.name = entityData.name + ' Test';
             const updateEntity = await EntityService.updateEntity(insert_id, entityData); 
-            expect(updateEntity).toBeTruthy();
+            expect(updateEntity).not.toBeNull();
             if (updateEntity) {
-                const entity = await EntityService.getEntity(insert_id);
-                expect(insert_id).toEqual(entity.id);
-                expect(entity.name).toEqual(entityData.name);
-                expect(entity.type).toEqual(entityData.type);
-                expect(entity.country).toEqual(entityData.country);
-                expect(entity.name).toEqual(entityData.name);
-                expect(entity.phone).toEqual(entityData.phone);
+                expect(insert_id).toEqual(updateEntity.id);
+                expect(updateEntity.name).toEqual(entityData.name);
+                expect(updateEntity.type).toEqual(entityData.type);
+                expect(updateEntity.country).toEqual(entityData.country);
+                expect(updateEntity.name).toEqual(entityData.name);
+                expect(updateEntity.phone).toEqual(entityData.phone);
 
                 // let check the open hours 
-                expect(entity.hours).toHaveLength(7);
-                entity.hours.forEach((hour, idx) => {
+                expect(updateEntity.hours).toHaveLength(entityData.hours.length);
+                updateEntity.hours.forEach((hour, idx) => {
                     const exportHour = entityData.hours[idx];
                     expect(exportHour).toBeDefined();
                     expect(exportHour).toEqual(hour);
