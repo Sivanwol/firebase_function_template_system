@@ -1,12 +1,13 @@
 import { BaseEntityModel } from "../common/base.model";
 import { EntityType } from "../common/enums";
+import { EntityHoursModel } from "./entityHours.model";
 
 export interface EntitiesModel extends BaseEntityModel {
     type: EntityType;
     name: string;
     alias_name: string;
     asset_logo_id?: string;
-    asset_media_id?: string; 
+    asset_media_id?: string;
     asset_cover_media_id?: string;
     description: string;
     status_id?: string;
@@ -30,4 +31,5 @@ export interface EntitiesModel extends BaseEntityModel {
     };
     main_location_id?: string;
     location_group_id?: string;
+    hours?: EntityHoursModel[];
 }

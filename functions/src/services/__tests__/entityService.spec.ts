@@ -71,6 +71,8 @@ describe('Entity Service Testing', () => {
                     expect(entity.country).toEqual(entityData.country);
                     expect(entity.name).toEqual(entityData.name);
                     expect(entity.phone).toEqual(entityData.phone);
+                    // let check the open hours 
+                    expect(entity.hours).toHaveLength(7);
                 } else {
                     expect(entity).not.toBeUndefined();
                 }
