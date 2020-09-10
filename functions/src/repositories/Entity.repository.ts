@@ -67,13 +67,13 @@ class EntityRepository {
         await batch.commit();
     }
 
-    public async locateEntity(entity_id: string): Promise<EntitiesModel | undefined> {
+    public async locateEntity(entity_id: string): Promise<EntitiesModel | null> {
         const docRef = await firebase.firestore().collection(collection.collectionEntities).doc(entity_id);
         const doc = await docRef.get();
         if (doc && doc.exists) {
             return await doc.data() as EntitiesModel;
         }
-        return undefined;
+        return null;
     }
 
     public async updateEntity(entity_id: string, entity: EntitiesModel): Promise<boolean> {
