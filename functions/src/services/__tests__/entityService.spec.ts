@@ -73,11 +73,72 @@ describe('Entity Service Testing', () => {
                     expect(entity.phone).toEqual(entityData.phone);
                     // let check the open hours 
                     expect(entity.hours).toHaveLength(7);
+                    entity.hours.forEach((hour, idx) => {
+                        const exportHour = entityData.hours[idx];
+                        expect(exportHour).toBeDefined();
+                        expect(exportHour).toEqual(hour);
+                    });
                 } else {
                     expect(entity).not.toBeUndefined();
                 }
             }
+        })
 
+        test('should getting entity' , async () => {
+            const insert_id = await EntityService.createEntity(entityData);
+            expect(insert_id).not.toBeNull();
+            if (insert_id) {
+                const entity = await EntityService.getEntity(insert_id);
+                
+                expect(insert_id).toEqual(entity.id);
+                expect(entity.name).toEqual(entityData.name);
+                expect(entity.type).toEqual(entityData.type);
+                expect(entity.country).toEqual(entityData.country);
+                expect(entity.name).toEqual(entityData.name);
+                expect(entity.phone).toEqual(entityData.phone);
+                // let check the open hours 
+                expect(entity.hours).toHaveLength(7);
+                entity.hours.forEach((hour, idx) => {
+                    const exportHour = entityData.hours[idx];
+                    expect(exportHour).toBeDefined();
+                    expect(exportHour).toEqual(hour);
+                });
+            }
+        })
+        test('should update entity with correct data', async () => {
+
+            const insert_id = await EntityService.createEntity(entityData);
+            expect(insert_id).not.toBeNull();
+            entityData.name = entityData.name + ' Test';
+            const updateEntity = await EntityService.updateEntity(insert_id, entityData); 
+            expect(updateEntity).toBeTruthy();
+            if (updateEntity) {
+                const entity = await EntityService.getEntity(insert_id);
+                expect(insert_id).toEqual(entity.id);
+                expect(entity.name).toEqual(entityData.name);
+                expect(entity.type).toEqual(entityData.type);
+                expect(entity.country).toEqual(entityData.country);
+                expect(entity.name).toEqual(entityData.name);
+                expect(entity.phone).toEqual(entityData.phone);
+
+                // let check the open hours 
+                expect(entity.hours).toHaveLength(7);
+                entity.hours.forEach((hour, idx) => {
+                    const exportHour = entityData.hours[idx];
+                    expect(exportHour).toBeDefined();
+                    expect(exportHour).toEqual(hour);
+                });
+            }
+        })
+
+        test('should remove entity' , async ()=>{
+            const insert_id = await EntityService.createEntity(entityData);
+            const removeEntity = await EntityService.deleteEntity(insert_id); 
+            expect(removeEntity).toBeTruthy();
+            if (removeEntity) {
+                const entity = await EntityService.getEntity(insert_id);
+                expect(entity).toBeNull();
+            }
         })
     })
 });
