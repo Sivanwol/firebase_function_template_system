@@ -44,6 +44,8 @@ class EntityService {
             const hours = await EntityRepository.getEntityHours(entity_id);
             if (hours.size === 7) {
                 entity.hours = hours.items;
+            } else {
+                entity.hours = [];
             }
         }
         return entity;

@@ -8,7 +8,7 @@ import { EntityType } from '../../common/enums';
 import '../../mocks/firebase.mock'
 let entityData = new EntityRequest();
 describe('Entity Service Testing', () => {
-    describe('Testing Create Entity', () => {
+    describe('Testing Entity basic actions', () => {
         beforeEach(() => {
             entityData = new EntityRequest;
             entityData.type = EntityType.Shop;
@@ -137,6 +137,19 @@ describe('Entity Service Testing', () => {
             if (removeEntity) {
                 const entity = await EntityService.getEntity(insert_id);
                 expect(entity).toBeNull();
+            }
+        })
+        test("should clear opening hour of entity" ,  async () => {
+
+            const insert_id = await EntityService.createEntity(entityData);
+            expect(insert_id).not.toBeNull();
+            if (insert_id) {
+                const cleared = await EntityService.cleanOpeningHours(insert_id);
+                const entity = await EntityService.getEntity(insert_id);
+                expect(cleared).toBeTruthy();
+                expect(entity).toBeDefined();
+                expect(entity.hours).toHaveLength(0);
+
             }
         })
     })
