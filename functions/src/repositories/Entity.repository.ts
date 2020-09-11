@@ -3,9 +3,9 @@ import { EntityHoursModel } from "../models/entityHours.model";
 import collection from "../common/collections";
 import * as firebase from "firebase-admin";
 import { SortDirection } from "../common/enums";
-import { BaseBulkActionResult, BaseListDataModel } from "../common/base.model";
+import { BaseListDataModel } from "../common/base.model";
 class EntityRepository {
-    public async create(entity: EntitiesModel): Promise<EntitiesModel | null>  {
+    public async create(entity: EntitiesModel): Promise<EntitiesModel | null> {
         const docRef = await firebase.firestore().collection(collection.collectionEntities).add(entity);
         const doc = await docRef.get();
         if (doc && doc.exists) {
@@ -15,7 +15,7 @@ class EntityRepository {
         }
         return null;
     }
-    public async get(id: string): Promise<EntitiesModel| null> {
+    public async get(id: string): Promise<EntitiesModel | null> {
         const doc = await firebase.firestore().collection(collection.collectionEntities).doc(id).get();
         if (doc && doc.exists) {
             const dta = await doc.data();
@@ -35,15 +35,15 @@ class EntityRepository {
                 return temp;
             });
         }
-        return {size: docs.size, items};
+        return { size: docs.size, items };
     }
-    public async list(per_page: number , offset_id: string , sort_field: string, sort_direction: SortDirection): Promise<BaseListDataModel<EntitiesModel>> {
-        const sort = (sort_direction === SortDirection.ASC) ? "asc" : "desc" ;
+    public async list(per_page: number, offset_id: string, sort_field: string, sort_direction: SortDirection): Promise<BaseListDataModel<EntitiesModel>> {
+        const sort = (sort_direction === SortDirection.ASC) ? "asc" : "desc";
         const docs = await firebase.firestore().collection(collection.collectionEntities)
-                .startAfter({id: offset_id})
-                .limit(per_page)
-                .orderBy(sort_field, sort)
-                .get();
+            .startAfter({ id: offset_id })
+            .limit(per_page)
+            .orderBy(sort_field, sort)
+            .get();
         // TODO this what need be implemented
         // https://stackoverflow.com/questions/50922417/how-to-paginate-or-infinite-scroll-by-number-of-items-in-firestore
         // https://firebase.google.com/docs/firestore/query-data/query-cursors
@@ -55,7 +55,7 @@ class EntityRepository {
                 return temp;
             });
         }
-        return { size: docs.size , items};
+        return { size: docs.size, items };
     }
     public async createEntityHour(entities: EntityHoursModel[]): Promise<void> {
         const batch = await firebase.firestore().batch();
@@ -78,7 +78,8 @@ class EntityRepository {
 
     public async updateEntity(entity_id: string, entity: EntitiesModel): Promise<boolean> {
         const docRef = await firebase.firestore().collection(collection.collectionEntities).doc(entity_id);
-        await docRef.set({ ...entity ,
+        await docRef.set({
+            ...entity,
             name: entity.name,
             alias_name: entity.alias_name,
             description: entity.description,
@@ -103,16 +104,18 @@ class EntityRepository {
     }
     public async deleteEntity(entity_id: string): Promise<void> {
         const batch = await firebase.firestore().batch();
-        const docRef = await firebase.firestore().collection(collection.collectionEntityHours).doc(entity_id);
+        const docRef = await firebase.firestore().collection(collection.collectionEntityHours).where("entity_id", "==", entity_id).get();
         const docExistRef = await firebase.firestore().collection(collection.collectionEntityHours).where("entity_id", "==", entity_id).get();
-        batch.delete(docRef);
-        if (!docExistRef.empty) {
-            docExistRef.docs.forEach(tDocRef => batch.delete(tDocRef.ref));
+        if (!docRef.empty) {
+            batch.delete(docRef.docs[0].ref);
+            if (!docExistRef.empty) {
+                docExistRef.docs.forEach(tDocRef => batch.delete(tDocRef.ref));
+            }
         }
 
         await batch.commit();
     }
-    public async cleanOpeningHours(entity_id: string) : Promise<void> {
+    public async cleanOpeningHours(entity_id: string): Promise<void> {
         const batch = await firebase.firestore().batch();
         const docExistRef = await firebase.firestore().collection(collection.collectionEntityHours).where("entity_id", "==", entity_id).get();
         if (!docExistRef.empty) {
@@ -120,7 +123,7 @@ class EntityRepository {
         }
         await batch.commit();
     }
-    public async bulkDelete(entity_ids: string[]) : Promise<void> {
+    public async bulkDelete(entity_ids: string[]): Promise<void> {
         const batch = await firebase.firestore().batch();
         entity_ids.forEach(async entity_id => {
             const docRef = await firebase.firestore().collection(collection.collectionEntityHours).doc(entity_id);
