@@ -110,6 +110,7 @@ class EntityRepository {
         if (!docExistRef.empty) {
             docExistRef.docs.forEach(tDocRef => batch.delete(tDocRef.ref));
         }
+
         await batch.commit();
     }
     public async cleanOpeningHours(entity_id: string): Promise<void> {
@@ -122,14 +123,15 @@ class EntityRepository {
     }
     public async bulkDelete(entity_ids: string[]): Promise<void> {
         const batch = await firebase.firestore().batch();
-        entity_ids.forEach(async entity_id => {
-            const docRef = await firebase.firestore().collection(collection.collectionEntityHours).doc(entity_id);
-            batch.delete(docRef);
+
+        for await (const entity_id of entity_ids) {
+            const docRef = await firebase.firestore().collection(collection.collectionEntities).doc(entity_id);
             const docExistRef = await firebase.firestore().collection(collection.collectionEntityHours).where("entity_id", "==", entity_id).get();
             if (!docExistRef.empty) {
                 docExistRef.docs.forEach(tDocRef => batch.delete(tDocRef.ref));
             }
-        });
+            batch.delete(docRef);
+        }
         await batch.commit();
     }
 }
