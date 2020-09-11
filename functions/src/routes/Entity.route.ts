@@ -11,7 +11,7 @@ import { EntityResponse } from "../responses/entity.response";
 export class EntityController {
     @Get("/")
     public async listEntities(@QueryParams() query: ListQuery): Promise<BaseResponse<ListResponse<EntityResponse>>> {
-        logger.info("request @GET(/entity) EntityController:listEntities" , query);
+        logger.info("request @GET(/entity) EntityController:listEntities", query);
         const response = new BaseResponse<ListResponse<EntityResponse>>();
         response.Data = new ListResponse<EntityResponse>();
         try {
@@ -26,7 +26,7 @@ export class EntityController {
     }
     @Get("/:entity_id")
     public async getEntity(@Param("entity_id") entity_id: string): Promise<BaseResponse<EntityResponse> {
-        logger.info("request @GET(/entity/:entity_id) EntityController:getEntity" , entity_id);
+        logger.info("request @GET(/entity/:entity_id) EntityController:getEntity", entity_id);
         const response = new BaseResponse<EntityResponse>();
         try {
             response.Data = await EntityService.getEntity(entity_id);
@@ -38,9 +38,25 @@ export class EntityController {
         }
         return response;
     }
+    @Put("/clear-hours/:entity_id")
+    public async clearOpeningsHours(@Param("entity_id") entity_id: string): Promise<BaseResponse<OperationResponse> {
+        logger.info(`request @PUT(/entity/clear-hours/${entity_id}) EntityController:clearOpeningsHours`);
+        const response: BaseResponse<OperationResponse> = new BaseResponse<OperationResponse>();
+        response.Data = new OperationResponse();
+        try {
+            response.Data.operation_status = await EntityService.cleanOpeningHours(entity_id);
+            response.Status = true;
+        } catch (err) {
+            logger.error(`request @PUT(/entity/clear-hours/${entity_id}) EntityController:clearOpeningsHours has an error`, err);
+            response.Status = false;
+            response.Errors = err.message;
+        }
+        return response;
+    }
+
     @Post("/")
     public async createEntity(@Body() entityBody: EntityRequest): Promise<BaseResponse<CreateResponse>> {
-        logger.info("request @POST(/entity) EntityController:createEntity" , entityBody);
+        logger.info("request @POST(/entity) EntityController:createEntity", entityBody);
         const response: BaseResponse<CreateResponse> = new BaseResponse<CreateResponse>();
         response.Data = new CreateResponse();
         try {
@@ -55,7 +71,7 @@ export class EntityController {
     }
     @Put("/:entity_id")
     public async updateEntity(@Param("entity_id") entity_id: string, @Body() entityBody: EntityRequest): Promise<BaseResponse<OperationResponse>> {
-        logger.info(`request @Put(/entity/${entity_id}) EntityController:updateEntity` , entityBody);
+        logger.info(`request @Put(/entity/${entity_id}) EntityController:updateEntity`, entityBody);
         const response: BaseResponse<OperationResponse> = new BaseResponse<OperationResponse>();
         response.Data = new OperationResponse();
         try {
