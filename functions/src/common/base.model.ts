@@ -8,7 +8,7 @@ export interface BaseModel {
     id?: string;
 }
 
-export interface BaseListDataModel <T> {
+export interface BaseListDataModel<T> {
     size: number;
     items: T[];
 }
