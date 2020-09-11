@@ -7,6 +7,7 @@ import { BaseResponse, ListResponse } from "../common/base.response";
 import { OperationResponse } from "../responses/operation.response";
 import { ListQuery } from "../requests/queries/list.query";
 import { EntityResponse } from "../responses/entity.response";
+import { DeleteEntitiesRequest } from "../requests/DeleteEntitiesRequest";
 @JsonController("/entity")
 export class EntityController {
     @Get("/")
@@ -94,6 +95,22 @@ export class EntityController {
             response.Status = true;
         } catch (err) {
             logger.error(`request @Put(/entity/${entity_id}) EntityController:updateEntity has an error`, err);
+            response.Status = false;
+            response.Errors = err.message;
+        }
+        return response;
+    }
+    @Delete("/bulk/delete")
+    public async BulkDeleteEntity(@Body() data: DeleteEntitiesRequest): Promise<BaseResponse<OperationResponse>> {
+        logger.info(`request @Delete(/bulk/delete) EntityController:BulkDeleteEntity`);
+        const response: BaseResponse<OperationResponse> = new BaseResponse<OperationResponse>();
+        response.Data = new OperationResponse();
+        try {
+            await EntityService.bulkDelete(data.entities_ids);
+            response.Data.operation_status = true;
+            response.Status = true;
+        } catch (err) {
+            logger.error(`request @Delete(/bulk/delete) EntityController:BulkDeleteEntity has an error`, err);
             response.Status = false;
             response.Errors = err.message;
         }

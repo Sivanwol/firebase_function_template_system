@@ -79,5 +79,9 @@ class EntityService {
         }
         return false;
     }
+    
+    public async bulkDelete(entities_ids: string[]): Promise<void> {
+        await EntityRepository.bulkDelete(entities_ids);
+    }
 }
 export default new EntityService();
