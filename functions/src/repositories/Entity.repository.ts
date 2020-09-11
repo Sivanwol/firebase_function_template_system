@@ -105,6 +105,14 @@ class EntityRepository {
         await firebase.firestore().collection(collection.collectionEntityHours).doc(entity_id).delete();
         await firebase.firestore().collection(collection.collectionEntities).doc(entity_id).delete();
     }
+    public async cleanOpeningHours(entity_id: string) : Promise<void> {
+        const batch = await firebase.firestore().batch();
+        const docExistRef = await firebase.firestore().collection(collection.collectionEntityHours).where("entity_id", "==", entity_id).get();
+        if (!docExistRef.empty) {
+            docExistRef.docs.forEach(docRef => batch.delete(docRef.ref));
+        }
+        await batch.commit();
+    }
 }
 
 export default new EntityRepository();

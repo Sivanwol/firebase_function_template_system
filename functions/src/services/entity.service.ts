@@ -69,5 +69,13 @@ class EntityService {
         }
         return false;
     }
+    public async cleanOpeningHours(entity_id: string): Promise<boolean> {
+        const foundEntity = await this.locateEntity(entity_id);
+        if (foundEntity) {
+            await EntityRepository.cleanOpeningHours(entity_id);
+            return true;
+        }
+        return false;
+    }
 }
 export default new EntityService();
