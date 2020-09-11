@@ -9,38 +9,43 @@ import * as admin from "firebase-admin"
 import { FirebaseHandler } from '../../common/firebase';
 // import '../../mocks/firebase.mock'
 let entityData = new EntityRequest();
+function requestNewEntityMock() {
+
+    const entityData = new EntityRequest;
+    entityData.type = EntityType.Shop;
+    entityData.city = faker.address.city();
+    entityData.country = faker.address.countryCode();
+    entityData.name = faker.company.companyName();
+    entityData.description = faker.lorem.sentence(1);
+    entityData.alias_name = faker.company.companyName();
+    entityData.hours = [];
+    for (let i = 1; i <= 5; i++) {
+        const entityDataHour = new EntityHoursRequest();
+        entityDataHour.from = `${faker.random.number({ min: 10, max: 15 })}:00`;
+        entityDataHour.to = `${faker.random.number({ min: 16, max: 24 })}:00`;
+        entityDataHour.day = i - 1;
+        entityData.hours.push(entityDataHour);
+    }
+    let entityDataHour = new EntityHoursRequest();
+    entityDataHour.day = 6;
+    entityDataHour.close = true;
+    entityData.hours.push(entityDataHour);
+    entityDataHour = new EntityHoursRequest();
+    entityDataHour.day = 7;
+    entityDataHour.all_day = true;
+    entityData.hours.push(entityDataHour);
+
+
+    entityData.phone = faker.phone.phoneNumber();
+    return entityData;
+}
 describe('Entity Service Testing', () => {
     beforeAll(async () => {
         await FirebaseHandler.setupFirebaseTest(admin);
     })
     describe('Testing Entity basic actions', () => {
         beforeEach(() => {
-            entityData = new EntityRequest;
-            entityData.type = EntityType.Shop;
-            entityData.city = faker.address.city();
-            entityData.country = faker.address.countryCode();
-            entityData.name = faker.company.companyName();
-            entityData.description = faker.lorem.sentence(1);
-            entityData.alias_name = faker.company.companyName();
-            entityData.hours = [];
-            for (let i = 1; i <= 5; i++) {
-                const entityDataHour = new EntityHoursRequest();
-                entityDataHour.from = `${faker.random.number({ min: 10, max: 15 })}:00`;
-                entityDataHour.to = `${faker.random.number({ min: 16, max: 24 })}:00`;
-                entityDataHour.day = i - 1;
-                entityData.hours.push(entityDataHour);
-            }
-            let entityDataHour = new EntityHoursRequest();
-            entityDataHour.day = 6;
-            entityDataHour.close = true;
-            entityData.hours.push(entityDataHour);
-            entityDataHour = new EntityHoursRequest();
-            entityDataHour.day = 7;
-            entityDataHour.all_day = true;
-            entityData.hours.push(entityDataHour);
-
-
-            entityData.phone = faker.phone.phoneNumber();
+            entityData = requestNewEntityMock();
         })
         test('should create entity with empty opening hour', async () => {
             entityData.hours = [];
@@ -140,7 +145,6 @@ describe('Entity Service Testing', () => {
             }
         })
         test("should clear opening hour of entity" ,  async () => {
-
             const insert_id = await EntityService.createEntity(entityData);
             expect(insert_id).not.toBeNull();
             if (insert_id) {
@@ -151,6 +155,17 @@ describe('Entity Service Testing', () => {
                 expect(entity.hours).toHaveLength(0);
 
             }
+        })
+        test('should remove entities (as bulk action)' , async ()=>{
+            const entities_ids: string[] = [];
+            entities_ids.push(await EntityService.createEntity(requestNewEntityMock()));
+            entities_ids.push(await EntityService.createEntity(requestNewEntityMock()));
+            entities_ids.push(await EntityService.createEntity(requestNewEntityMock()));
+            await EntityService.bulkDelete(entities_ids); 
+            entities_ids.forEach(async entity_id => {
+                const entity = await EntityService.getEntity(entity_id);
+                expect(entity).toBeNull();
+            });
         })
     })
 });
