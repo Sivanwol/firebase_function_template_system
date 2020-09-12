@@ -9,3 +9,6 @@ export interface LocationsModel extends BaseModel {
     entity_id: string;
     address: string;
 }
+export interface UserFavoriteLocations extends LocationsModel {
+    notes: string;
+}
