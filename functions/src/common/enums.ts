@@ -7,12 +7,16 @@ export enum DayOfWeek {
     Friday,
     Saturday,
 }
-
+export enum GenderEnum {
+    Male,
+    Female,
+    Unknown,
+}
 export enum AssetType {
     Video,
     Image,
     Audio,
-    Icon
+    Icon,
 }
 
 export enum EntityType {
@@ -23,7 +27,7 @@ export enum HttpStatusCode {
     NotAuthorizate = 403,
     NotFound = 404,
     Error = 500,
-    Success = 200
+    Success = 200,
 }
 export enum SortDirection {
     ASC,

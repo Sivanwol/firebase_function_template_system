@@ -1,13 +1,21 @@
-import { BaseEntityModel } from "../common/base.model";
-import { LocationsModel } from "./locations.model";
+import { BaseModel } from "../common/base.model";
+import { GenderEnum } from "../common/enums";
+import { LocationsModel, UserFavoriteLocations } from "./locations.model";
 
-interface UserProfile {
+export interface UserProfile {
     phone: string;
     subtitle: string;
-    
+    gender: GenderEnum;
+    myFavoriteLocations: UserFavoriteLocations[];
 }
 
-export interface EntitiesModel extends BaseEntityModel {
+export interface FavoriteLocations extends BaseModel {
+    location: UserFavoriteLocations;
+    owner_user_id: string;
+    register_at: Date;
+}
+
+export interface UsersModel extends BaseModel {
     uuid: string; // firebase user id
     loginToken: string;
     location: LocationsModel;
