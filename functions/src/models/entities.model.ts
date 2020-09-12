@@ -32,4 +32,5 @@ export interface EntitiesModel extends BaseEntityModel {
     main_location_id?: string;
     location_group_id?: string;
     hours?: EntityHoursModel[];
+    visibility: string;
 }

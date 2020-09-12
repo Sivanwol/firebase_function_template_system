@@ -15,10 +15,17 @@ export interface FavoriteLocations extends BaseModel {
     register_at: Date;
 }
 
+export interface UserMetaData {
+    allow_location: boolean;
+    approved_email: boolean;
+    first_time_login: boolean;
+}
+
 export interface UsersModel extends BaseModel {
     uuid: string; // firebase user id
     loginToken: string;
-    location: LocationsModel;
+    location?: LocationsModel;
     email: string;
     profile: UserProfile;
+    meta: UserMetaData;
 }

@@ -1,6 +1,27 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    function signedInOrPublic() {
+      return request.auth.uid != null || resource.data.visibility == 'public';
+    }
+
+
+    function isPermmsions(permmsionId) {
+      return exists(/databases/$(database)/documents/permmisions/$(permmsionId))
+    }
+
+    match /entities/{city} {
+      allow read: if signedInOrPublic();
+    }
+
+    match /entities/{city} {
+      allow read: if signedInOrPublic();
+    }
+
+    match /collectionEntityHours/{user} {
+      allow read: if signedInOrPublic();
+    }
+
     match /{document=**} {
       allow read, write: if false;
     }

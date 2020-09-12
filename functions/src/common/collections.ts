@@ -1,4 +1,4 @@
 export default {
     collectionEntities: "entities",
-    collectionEntityHours: "entity_hours"
+    collectionEntityHours: "entity_hours",
 }
