@@ -23,12 +23,15 @@ export enum EntityType {
     Shop,
     Restaurant,
 }
+
+// TODO need see how much this been used
 export enum HttpStatusCode {
-    NotAuthorizate = 403,
+    NotAuthorization = 403,
     NotFound = 404,
     Error = 500,
     Success = 200,
 }
+
 export enum SortDirection {
     ASC,
     DESC,
