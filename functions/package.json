@@ -28,7 +28,9 @@
         "lodash": "^4.17.20",
         "moment": "^2.27.0",
         "reflect-metadata": "^0.1.13",
-        "routing-controllers": "^0.9.0-alpha.6"
+        "routing-controllers": "^0.9.0-alpha.6",
+        "simple-cached-firestore": "^3.2.9",
+        "validated-base": "^1.0.2"
     },
     "devDependencies": {
         "@babel/core": "^7.11.4",

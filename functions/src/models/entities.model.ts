@@ -1,8 +1,9 @@
-import { BaseEntityModel } from "../common/base.model";
+import { IsArray, isEnum, IsEnum, IsOptional, IsString } from 'class-validator';
+import { BaseModel, IBaseModel } from "../common/base.model";
 import { EntityType } from "../common/enums";
 import { EntityHoursModel } from "./entityHours.model";
 
-export interface EntitiesModel extends BaseEntityModel {
+export interface IEntitiesModel extends IBaseModel {
     type: EntityType;
     name: string;
     alias_name: string;
@@ -11,10 +12,6 @@ export interface EntitiesModel extends BaseEntityModel {
     asset_cover_media_id?: string;
     description: string;
     status_id?: string;
-    intro: {
-        content?: string
-        media_ids?: string[]
-    };
     owner_user_id?: string;
     contact_user_id?: string;
     owner_first_name?: string;
@@ -24,13 +21,83 @@ export interface EntitiesModel extends BaseEntityModel {
     city: string;
     breaches_ids?: string[];
     parking_location_ids?: string[];
-    socials: {
-        linkedin?: string;
-        facebook?: string;
-        whatsup?: number;
-    };
     main_location_id?: string;
     location_group_id?: string;
     hours?: EntityHoursModel[];
     visibility: string;
+}
+export class EntitiesModel extends BaseModel {
+    @IsEnum(EntityType)
+    public type: EntityType;
+    @IsString()
+    public name: string;
+    @IsOptional()
+    @IsString()
+    public alias_name: string;
+    @IsOptional()
+    @IsString()
+    public asset_logo_id?: string;
+    @IsOptional()
+    @IsString()
+    public asset_media_id?: string;
+    @IsOptional()
+    @IsString()
+    public asset_cover_media_id?: string;
+    @IsString()
+    public description: string;
+    @IsString()
+    public status_id?: string;
+    @IsOptional()
+    @IsString()
+    public owner_user_id?: string;
+    @IsOptional()
+    @IsString()
+    public contact_user_id?: string;
+    @IsOptional()
+    @IsString()
+    public owner_first_name?: string;
+    @IsOptional()
+    @IsString()
+    public owner_last_name?: string;
+    @IsString()
+    public phone: string;
+    @IsString()
+    public country: string;
+    @IsString()
+    public city: string;
+    @IsArray()
+    public breaches_ids?: string[];
+    @IsArray()
+    public parking_location_ids?: string[];
+    @IsString()
+    public main_location_id?: string;
+    @IsString()
+    public location_group_id?: string;
+    @IsArray()
+    public hours?: EntityHoursModel[];
+    constructor(params: IEntitiesModel, validate: boolean = true) {
+        super(params);
+        this.name = params.name;
+        this.alias_name = params.alias_name;
+        this.asset_cover_media_id = params.asset_cover_media_id;
+        this.alias_name = params.alias_name;
+        this.asset_logo_id = params.asset_logo_id;
+        this.asset_media_id = params.asset_media_id;
+        this.breaches_ids = params.breaches_ids;
+        this.city = params.city;
+        this.contact_user_id = params.contact_user_id;
+        this.country = params.country;
+        this.description = params.description;
+        this.hours = params.hours;
+        this.main_location_id = params.main_location_id;
+        this.location_group_id = params.location_group_id;
+        this.owner_first_name = params.owner_first_name;
+        this.owner_last_name = params.owner_last_name;
+        this.owner_user_id = params.owner_user_id;
+        this.status_id = params.status_id;
+
+        if (validate) {
+            this.validate();
+        }
+    }
 }
