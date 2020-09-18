@@ -13,10 +13,6 @@
     "no-var-requires": true,
     "no-null-keyword": false,
     "no-consecutive-blank-lines": true,
-    "quotemark": [
-      true,
-      "avoid-escape"
-    ],
     "interface-name": false,
     "no-empty-interface": false,
     "no-namespace": false,
