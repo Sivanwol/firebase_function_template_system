@@ -18,7 +18,10 @@ export enum AssetType {
     Audio,
     Icon,
 }
-
+export enum EntityVisibility {
+    Public,
+    Hidden,
+}
 export enum EntityType {
     Shop,
     Restaurant,

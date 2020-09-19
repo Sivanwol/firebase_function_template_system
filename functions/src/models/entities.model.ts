@@ -1,7 +1,7 @@
 import { DocumentReference } from '@google-cloud/firestore';
-import { IsArray, IsEnum, IsObject, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsEnum, IsISO31661Alpha2, IsObject, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 import { BaseModel, IBaseModel } from "../common/base.model";
-import { EntityStatus, EntityType } from "../common/enums";
+import { EntityStatus, EntityType, EntityVisibility } from "../common/enums";
 import { EntityHoursModel } from "./entityHours.model";
 import { LocationsModel } from './locations.model';
 
@@ -21,20 +21,24 @@ export interface IEntitiesModel extends IBaseModel {
     phone: string;
     country: string;
     city: string;
-    breaches_ids?: string[];
-    parking_location_ids?: DocumentReference<EntitiesModel>[];
-    main_location_id?: DocumentReference<LocationsModel>;
+    breaches?: DocumentReference<EntitiesModel>[];
+    parking_location?: DocumentReference<LocationsModel>[];
+    main_location?: DocumentReference<LocationsModel>;
     location_group_id?: string;
     hours?: EntityHoursModel[];
-    visibility: string;
+    visibility: EntityVisibility;
 }
 export class EntitiesModel extends BaseModel {
     @IsEnum(EntityType)
     public type: EntityType;
     @IsString()
+    @MinLength(2)
+    @MaxLength(255)
     public name: string;
     @IsOptional()
     @IsString()
+    @MinLength(2)
+    @MaxLength(255)
     public alias_name: string;
     @IsOptional()
     @IsString()
@@ -65,20 +69,25 @@ export class EntitiesModel extends BaseModel {
     @IsString()
     public phone: string;
     @IsString()
+    @IsISO31661Alpha2()
     public country: string;
     @IsString()
+    @MinLength(2)
+    @MaxLength(255)
     public city: string;
     @IsArray()
     @IsObject({ each: true })
-    public breaches_ids?: DocumentReference<EntitiesModel>[];
+    public breaches?: DocumentReference<EntitiesModel>[];
     @IsArray()
-    public parking_location_ids?: string[];
+    public parking_location?: DocumentReference<LocationsModel>[];
     @IsString()
-    public main_location_id?: string;
+    public main_location?: DocumentReference<LocationsModel>;
     @IsString()
     public location_group_id?: string;
     @IsArray()
     public hours?: EntityHoursModel[];
+    @IsEnum(EntityVisibility)
+    public visibility: EntityVisibility;
     constructor(params: IEntitiesModel, validate: boolean = true) {
         super(params);
         this.name = params.name;
@@ -87,18 +96,19 @@ export class EntitiesModel extends BaseModel {
         this.alias_name = params.alias_name;
         this.asset_logo_id = params.asset_logo_id;
         this.asset_media_id = params.asset_media_id;
-        this.breaches_ids = params.breaches_ids;
+        this.breaches = params.breaches;
         this.city = params.city;
         this.contact_user_id = params.contact_user_id;
         this.country = params.country;
         this.description = params.description;
         this.hours = params.hours;
-        this.main_location_id = params.main_location_id;
+        this.main_location = params.main_location;
         this.location_group_id = params.location_group_id;
         this.owner_first_name = params.owner_first_name;
         this.owner_last_name = params.owner_last_name;
         this.owner_user_id = params.owner_user_id;
         this.status = params.status;
+        this.visibility = params.visibility;
 
         if (validate) {
             this.validate();

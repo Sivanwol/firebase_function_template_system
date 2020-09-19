@@ -1,9 +1,11 @@
-import { IsString, IsEnum, IsOptional, IsBoolean } from "class-validator";
-import { BaseModel } from "../common/base.model";
+import { DocumentReference } from "@google-cloud/firestore";
+import { IsString, IsEnum, IsOptional, IsBoolean, IsObject, Length, Matches } from "class-validator";
+import { BaseModel, IBaseModel } from "../common/base.model";
 import { DayOfWeek } from "../common/enums";
+import { EntitiesModel } from "./entities.model";
 
-export interface IEntityHoursModel extends BaseModel {
-    entity_id: string;
+export interface IEntityHoursModel extends IBaseModel {
+    entity: DocumentReference<EntitiesModel>;
     day: DayOfWeek;
     from: string;
     to: string;
@@ -11,15 +13,19 @@ export interface IEntityHoursModel extends BaseModel {
     all_day: boolean;
 }
 export class EntityHoursModel extends BaseModel {
-    @IsString()
-    public entity_id: string;
+    @IsObject()
+    public entity: DocumentReference<EntitiesModel>;
     @IsEnum(DayOfWeek)
     public day: DayOfWeek;
     @IsOptional()
     @IsString()
+    @Length(5, 5)
+    @Matches("/^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/")
     public from: string;
     @IsOptional()
     @IsString()
+    @Length(5, 5)
+    @Matches("/^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/")
     public to: string;
     @IsOptional()
     @IsBoolean()
@@ -32,7 +38,7 @@ export class EntityHoursModel extends BaseModel {
         super(params);
         this.all_day = params.all_day;
         this.day = params.day;
-        this.entity_id = params.entity_id;
+        this.entity = params.entity;
         this.from = params.from;
         this.to = params.to;
         this.close = params.close;

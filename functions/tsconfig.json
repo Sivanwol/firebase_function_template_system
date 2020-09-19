@@ -3,6 +3,7 @@
     "lib": ["es2017"],
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "esModuleInterop": true,
     "module": "commonjs",
     "noImplicitReturns": true,
     "allowJs": true,

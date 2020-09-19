@@ -1,6 +1,7 @@
 {
     "name": "functions",
     "scripts": {
+        "environment": "test -f env.json && firebase functions:config:unset env && firebase functions:config:set env=\"$(cat env.json)\" || echo \"Please add the file env.json before deploy.\"",
         "clean": "rimraf ./tmp && rimraf ./lib/**/*",
         "build:dev": "npm run clean && tsc --watch",
         "build": "npm run clean && tsc -p tsconfig-build.json && rollup -c rollup.config.js && rimraf ./tmp",
@@ -24,13 +25,16 @@
         "cors": "2.8.5",
         "express": "^4.16.4",
         "firebase-admin": "9.2.0",
-        "firebase-functions": "3.9.1",
+        "firebase-functions": "^3.11.0",
         "lodash": "^4.17.20",
         "moment": "^2.27.0",
+        "redis": "^3.0.2",
         "reflect-metadata": "^0.1.13",
         "routing-controllers": "^0.9.0-alpha.6",
         "simple-cached-firestore": "^3.2.9",
-        "validated-base": "^1.0.2"
+        "validated-base": "^1.0.2",
+        "winston": "^3.3.3",
+        "winston-logzio": "^5.1.2"
     },
     "devDependencies": {
         "@babel/core": "^7.11.4",
