@@ -23,7 +23,11 @@ export enum EntityType {
     Shop,
     Restaurant,
 }
-
+export enum EntityStatus {
+    Draft,
+    Published,
+    Frozen,
+}
 // TODO need see how much this been used
 export enum HttpStatusCode {
     NotAuthorization = 403,
