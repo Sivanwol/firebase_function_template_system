@@ -1,35 +1,69 @@
-import { BaseModel } from "../common/base.model";
+import { BaseModel, IBaseModel } from "../common/base.model";
 import { GenderEnum } from "../common/enums";
 import { LocationsModel, UserFavoriteLocations } from "./locations.model";
 import { DocumentReference } from "@google-cloud/firestore";
 import { PermissionsModel, RolesModel } from "./acl.model";
+import { IsBoolean, IsEmail, IsEnum, IsObject, IsOptional, IsString } from "class-validator";
 
-export interface UserProfile {
+export interface IUsersModel extends IBaseModel {
+    uuid: string; // firebase user id
+    loginToken: string;
+    location?: DocumentReference<LocationsModel>;
+    email: string;
     phone: string;
     subtitle: string;
     gender: GenderEnum;
-    myFavoriteLocations: UserFavoriteLocations[];
-}
-
-export interface FavoriteLocations extends BaseModel {
-    location: UserFavoriteLocations;
-    owner_user_id: string;
-    register_at: Date;
-}
-
-export interface UserMetaData {
+    favoriteLocations: DocumentReference<UserFavoriteLocations>[];
     allow_location: boolean;
     approved_email: boolean;
     first_time_login: boolean;
-    role_ids: DocumentReference<RolesModel>[];
-    permission_ids:  DocumentReference<PermissionsModel>[]
+    roles: DocumentReference<RolesModel>[];
+    permissions:  DocumentReference<PermissionsModel>[];
 }
 
-export interface UsersModel extends BaseModel {
-    uuid: string; // firebase user id
-    loginToken: string;
-    location?: LocationsModel;
-    email: string;
-    profile: UserProfile;
-    meta: UserMetaData;
+export class UsersModel extends BaseModel  {
+    @IsString()
+    public uuid: string; // firebase user id
+    @IsString()
+    public loginToken: string;
+    @IsObject()
+    @IsOptional()
+    public location?: DocumentReference<LocationsModel>;
+    @IsEmail()
+    public email: string;
+    @IsString()
+    @IsOptional()
+    public phone: string;
+    @IsEnum(GenderEnum)
+    public gender: GenderEnum;
+    @IsObject({ each: true })
+    public favoriteLocations: DocumentReference<UserFavoriteLocations>[];
+    @IsBoolean()
+    public allow_location: boolean;
+    @IsBoolean()
+    public approved_email: boolean;
+    @IsBoolean()
+    public first_time_login: boolean;
+    @IsObject({ each: true })
+    public roles: DocumentReference<RolesModel>[];
+    @IsObject({ each: true })
+    public permissions:  DocumentReference<PermissionsModel>[];
+    constructor(params: IUsersModel, validate: boolean = true) {
+        super(params);
+        this.uuid = params.uuid;
+        this.allow_location = params.allow_location;
+        this.approved_email = params.approved_email;
+        this.email = params.email;
+        this.favoriteLocations = params.favoriteLocations;
+        this.first_time_login = params.first_time_login;
+        this.gender = params.gender;
+        this.location = params.location;
+        this.loginToken = params.loginToken;
+        this.roles = params.roles;
+        this.permissions = params.permissions;
+
+        if (validate) {
+            this.validate();
+        }
+    }
 }
