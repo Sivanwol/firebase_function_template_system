@@ -14,7 +14,7 @@ class EntityService {
         const entity_id = docRef!.id;
         if (entity_id) {
             if (data.hours.length === 7) {
-                await EntityRepository.createEntityHour(data.toEntityHoursModel(entity_id));
+                await EntityRepository.createEntityHour(data.toEntityHoursModel(docRef));
 
             }
         }
