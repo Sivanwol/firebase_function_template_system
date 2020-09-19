@@ -1,7 +1,9 @@
-import { IsArray, isEnum, IsEnum, IsOptional, IsString } from 'class-validator';
+import { DocumentReference } from '@google-cloud/firestore';
+import { IsArray, IsEnum, IsObject, IsOptional, IsString } from 'class-validator';
 import { BaseModel, IBaseModel } from "../common/base.model";
-import { EntityType } from "../common/enums";
+import { EntityStatus, EntityType } from "../common/enums";
 import { EntityHoursModel } from "./entityHours.model";
+import { LocationsModel } from './locations.model';
 
 export interface IEntitiesModel extends IBaseModel {
     type: EntityType;
@@ -11,7 +13,7 @@ export interface IEntitiesModel extends IBaseModel {
     asset_media_id?: string;
     asset_cover_media_id?: string;
     description: string;
-    status_id?: string;
+    status: EntityStatus;
     owner_user_id?: string;
     contact_user_id?: string;
     owner_first_name?: string;
@@ -20,8 +22,8 @@ export interface IEntitiesModel extends IBaseModel {
     country: string;
     city: string;
     breaches_ids?: string[];
-    parking_location_ids?: string[];
-    main_location_id?: string;
+    parking_location_ids?: DocumentReference<EntitiesModel>[];
+    main_location_id?: DocumentReference<LocationsModel>;
     location_group_id?: string;
     hours?: EntityHoursModel[];
     visibility: string;
@@ -46,7 +48,8 @@ export class EntitiesModel extends BaseModel {
     @IsString()
     public description: string;
     @IsString()
-    public status_id?: string;
+    @IsEnum(EntityStatus)
+    public status?: EntityStatus;
     @IsOptional()
     @IsString()
     public owner_user_id?: string;
@@ -66,7 +69,8 @@ export class EntitiesModel extends BaseModel {
     @IsString()
     public city: string;
     @IsArray()
-    public breaches_ids?: string[];
+    @IsObject({ each: true })
+    public breaches_ids?: DocumentReference<EntitiesModel>[];
     @IsArray()
     public parking_location_ids?: string[];
     @IsString()
@@ -94,7 +98,7 @@ export class EntitiesModel extends BaseModel {
         this.owner_first_name = params.owner_first_name;
         this.owner_last_name = params.owner_last_name;
         this.owner_user_id = params.owner_user_id;
-        this.status_id = params.status_id;
+        this.status = params.status;
 
         if (validate) {
             this.validate();
