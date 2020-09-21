@@ -114,24 +114,20 @@ describe('Entity Service Testing', () => {
             const insert_id = await EntityService.createEntity(entityData);
             expect(insert_id).not.toBeNull();
             entityData.name = entityData.name + ' Test';
-            const updateEntity = await EntityService.updateEntity(insert_id, entityData); 
-            expect(updateEntity).not.toBeNull();
-            if (updateEntity) {
-                expect(insert_id).toEqual(updateEntity.id);
-                expect(updateEntity.name).toEqual(entityData.name);
-                expect(updateEntity.type).toEqual(entityData.type);
-                expect(updateEntity.country).toEqual(entityData.country);
-                expect(updateEntity.name).toEqual(entityData.name);
-                expect(updateEntity.phone).toEqual(entityData.phone);
+            const updateEntityStatus = await EntityService.updateEntity(insert_id, entityData); 
+            expect(updateEntityStatus).not.toBeNull();
+            expect(updateEntityStatus).toBeTruthy()
+            const response = await EntityService.getEntity(insert_id);
+            if (response) {
+                expect(insert_id).toEqual(response.id);
+                expect(response.name).toEqual(entityData.name);
+                expect(response.type).toEqual(entityData.type);
+                expect(response.country).toEqual(entityData.country);
+                expect(response.name).toEqual(entityData.name);
+                expect(response.phone).toEqual(entityData.phone);
 
                 // let check the open hours 
-                expect(updateEntity.hours).toHaveLength(entityData.hours.length);
-                updateEntity.hours.forEach((hour, idx) => {
-                    const exportHour = entityData.hours[idx];
-                    console.log("Hour Check" , exportHour , hour);
-                    // expect(exportHour).toBeDefined();
-                    // expect(exportHour).toEqual(hour);
-                });
+                expect(response.hours).toHaveLength(entityData.hours.length);
             }
         })
 
