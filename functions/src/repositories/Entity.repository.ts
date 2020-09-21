@@ -20,14 +20,14 @@ class EntityRepository {
         return !!doc ? doc : null;
     }
 
-    public async getEntityHours(id: string): Promise<BaseListDataModel<EntityHoursModel>> {
+    public async getEntityHours(id: string): Promise<BaseListDataModel<{item: EntityHoursModel, docRef: DocumentReference<FirebaseFirestore.DocumentData>}>> {
         const docs = await firebase.firestore().collection(collection.collectionEntityHours).where("entity_id", "==", id).get();
         let items = [];
         if (docs && !docs.empty) {
             items = docs.docs.map(async doc => {
                 const temp = await doc.data() as EntityHoursModel;
                 temp.id = doc.id;
-                return temp;
+                return {item: temp, docRef: doc.ref};
             });
         }
         return { size: docs.size, items };

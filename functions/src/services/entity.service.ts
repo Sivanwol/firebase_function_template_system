@@ -2,8 +2,9 @@
 import { EntityRequest } from "../requests/EntityRequest";
 import EntityRepository from "../repositories/Entity.repository";
 import { EntitiesModel } from '../models/entities.model';
-import { SortDirection } from "../common/enums";
 import { ListResponse } from "../common/base.response";
+import { map } from "lodash";
+import { SORT_DIRECTION } from "simple-cached-firestore";
 class EntityService {
     // TODO need add validation process so no same entity clone will be able to create
     public async createEntity(data: EntityRequest): Promise<string | null> {
@@ -25,7 +26,7 @@ class EntityService {
         return await this.locateEntity(entity_id);
     }
 
-    public async listEntities(per_page: number, offset_id: string, sortField: string, sortDirection: SortDirection): Promise<ListResponse<EntitiesModel>> {
+    public async listEntities(per_page: number, offset_id: string, sortField: string, sortDirection: SORT_DIRECTION): Promise<ListResponse<EntitiesModel>> {
         const list = await EntityRepository.list(per_page, offset_id, sortField, sortDirection);
         return {
             items: list.items,
@@ -43,7 +44,7 @@ class EntityService {
             entity.id = entity_id;
             const hours = await EntityRepository.getEntityHours(entity_id);
             if (hours.size === 7) {
-                entity.hours = hours.items;
+                entity.hours = map(hours.items, (hour) => hour.docRef);
             } else {
                 entity.hours = [];
             }
@@ -58,7 +59,7 @@ class EntityService {
                 data.hours = []; // incorrect format so we ignore and won't be update the hours
             }
             await EntityRepository.updateEntity(entity_id, data.toEntityModel());
-            await EntityRepository.updateEntityHours(entity_id, data.toEntityHoursModel(entity_id));
+            await EntityRepository.updateEntityHours(entity_id, data.toEntityHoursModel(foundEntity.));
             return true;
         }
         return false;

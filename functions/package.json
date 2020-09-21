@@ -1,7 +1,8 @@
 {
     "name": "functions",
     "scripts": {
-        "environment": "test -f env.json && firebase functions:config:unset env && firebase functions:config:set env=\"$(cat env.json)\" || echo \"Please add the file env.json before deploy.\"",
+        "copy:environment": "rimraf .env.json && cp env.template.js .env.json",
+        "environment": "test -f .env.json && firebase functions:config:unset env && firebase functions:config:set env=\"$(cat .env.json)\" || echo \"Please add the file env.json before deploy.\"",
         "clean": "rimraf ./tmp && rimraf ./lib/**/*",
         "build:dev": "npm run clean && tsc --watch",
         "build": "npm run clean && tsc -p tsconfig-build.json && rollup -c rollup.config.js && rimraf ./tmp",
@@ -26,6 +27,7 @@
         "express": "^4.16.4",
         "firebase-admin": "9.2.0",
         "firebase-functions": "^3.11.0",
+        "ioredis": "^4.17.3",
         "lodash": "^4.17.20",
         "moment": "^2.27.0",
         "redis": "^3.0.2",

@@ -17,5 +17,8 @@
   "compileOnSave": true,
   "include": [
     "src"
+  ],
+  "exclude": [
+      "env.template.js",
   ]
 }

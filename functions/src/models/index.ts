@@ -17,7 +17,6 @@ class CacheDB<T extends DalModel> {
 
             // The object read from the db will have Firebase Timestamps in place of Dates, that the ValidatedClass must convert
             convertFromDb: (params) => new this.fireStoreModel(params),
-
             // The object being written to the db will be automatically scanned for Dates, which are converted to Timestamps
             // NOTE: This scanning does have a performance hit, but it's assumed writes are infrequent compared to reads
             convertForDb: (params) => params,
