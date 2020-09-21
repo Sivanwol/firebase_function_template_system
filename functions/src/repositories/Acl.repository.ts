@@ -1,5 +1,4 @@
-import { RolesModel, PermissionsModel } from '../models/acl.model';
-import collection from "../common/collections";
+import { RolesModel, PermissionsModel, collection } from '../models';
 import * as firebase from "firebase-admin";
 class AclRepository {
     public async fetchRolesAndPermissions(): Promise<{ roles: RolesModel[], permissions: PermissionsModel[] }> {

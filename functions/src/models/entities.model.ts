@@ -2,8 +2,6 @@ import { DocumentReference } from '@google-cloud/firestore';
 import { IsArray, IsEnum, IsISO31661Alpha2, IsObject, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 import { BaseModel, IBaseModel } from "../common/base.model";
 import { EntityStatus, EntityType, EntityVisibility } from "../common/enums";
-import { EntityHoursModel } from "./entityHours.model";
-import { LocationsModel } from './locations.model';
 
 export interface IEntitiesModel extends IBaseModel {
     type: EntityType;
@@ -21,11 +19,11 @@ export interface IEntitiesModel extends IBaseModel {
     phone: string;
     country: string;
     city: string;
-    breaches?: DocumentReference<EntitiesModel>[];
-    parking_location?: DocumentReference<LocationsModel>[];
-    main_location?: DocumentReference<LocationsModel>;
+    breaches?: DocumentReference<FirebaseFirestore.DocumentData>[];
+    parking_location?: DocumentReference<FirebaseFirestore.DocumentData>[];
+    main_location?: DocumentReference<FirebaseFirestore.DocumentData>;
     location_group_id?: string;
-    hours?: EntityHoursModel[];
+    hours?: DocumentReference<FirebaseFirestore.DocumentData>[];
     visibility: EntityVisibility;
 }
 export class EntitiesModel extends BaseModel {
@@ -77,15 +75,15 @@ export class EntitiesModel extends BaseModel {
     public city: string;
     @IsArray()
     @IsObject({ each: true })
-    public breaches?: DocumentReference<EntitiesModel>[];
+    public breaches?: DocumentReference<FirebaseFirestore.DocumentData>[];
     @IsArray()
-    public parking_location?: DocumentReference<LocationsModel>[];
+    public parking_location?: DocumentReference<FirebaseFirestore.DocumentData>[];
     @IsString()
-    public main_location?: DocumentReference<LocationsModel>;
+    public main_location?: DocumentReference<FirebaseFirestore.DocumentData>;
     @IsString()
     public location_group_id?: string;
     @IsArray()
-    public hours?: EntityHoursModel[];
+    public hours?: DocumentReference<FirebaseFirestore.DocumentData>[];
     @IsEnum(EntityVisibility)
     public visibility: EntityVisibility;
     constructor(params: IEntitiesModel, validate: boolean = true) {

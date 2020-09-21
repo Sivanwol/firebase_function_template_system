@@ -6,15 +6,15 @@ import { logger } from "firebase-functions";
 import { BaseResponse, ListResponse } from "../common/base.response";
 import { OperationResponse } from "../responses/operation.response";
 import { ListQuery } from "../requests/queries/list.query";
-import { EntityResponse } from "../responses/entity.response";
 import { DeleteEntitiesRequest } from "../requests/DeleteEntitiesRequest";
+import { EntitiesModel } from "../models/entities.model";
 @JsonController("/entity")
 export class EntityController {
     @Get("/")
-    public async listEntities(@QueryParams() query: ListQuery): Promise<BaseResponse<ListResponse<EntityResponse>>> {
+    public async listEntities(@QueryParams() query: ListQuery): Promise<BaseResponse<ListResponse<EntitiesModel>>> {
         logger.info("request @GET(/entity) EntityController:listEntities", query);
-        const response = new BaseResponse<ListResponse<EntityResponse>>();
-        response.Data = new ListResponse<EntityResponse>();
+        const response = new BaseResponse<ListResponse<EntitiesModel>>();
+        response.Data = new ListResponse<EntitiesModel>();
         try {
             response.Data = await EntityService.listEntities(query.limit, query.offset_id, query.sortField, query.sortDirection);
             response.Status = true;
@@ -26,9 +26,9 @@ export class EntityController {
         return response;
     }
     @Get("/:entity_id")
-    public async getEntity(@Param("entity_id") entity_id: string): Promise<BaseResponse<EntityResponse> {
+    public async getEntity(@Param("entity_id") entity_id: string): Promise<BaseResponse<EntitiesModel>>{
         logger.info("request @GET(/entity/:entity_id) EntityController:getEntity", entity_id);
-        const response = new BaseResponse<EntityResponse>();
+        const response = new BaseResponse<EntitiesModel>();
         try {
             response.Data = await EntityService.getEntity(entity_id);
             response.Status = true;
@@ -40,7 +40,7 @@ export class EntityController {
         return response;
     }
     @Put("/clear-hours/:entity_id")
-    public async clearOpeningsHours(@Param("entity_id") entity_id: string): Promise<BaseResponse<OperationResponse> {
+    public async clearOpeningsHours(@Param("entity_id") entity_id: string): Promise<BaseResponse<OperationResponse>> {
         logger.info(`request @PUT(/entity/clear-hours/${entity_id}) EntityController:clearOpeningsHours`);
         const response: BaseResponse<OperationResponse> = new BaseResponse<OperationResponse>();
         response.Data = new OperationResponse();

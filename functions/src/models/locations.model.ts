@@ -1,8 +1,6 @@
 import { DocumentReference } from "@google-cloud/firestore";
 import { IsLatitude, IsLongitude, IsNumber, IsObject, IsOptional, IsString } from "class-validator";
 import { BaseModel, IBaseModel } from "../common/base.model";
-import { EntitiesModel } from "./entities.model";
-import { UsersModel } from "./users.model";
 
 export interface ILocationsModel extends IBaseModel {
     lat: number;
@@ -10,9 +8,9 @@ export interface ILocationsModel extends IBaseModel {
     title: string;
     asset_small_image?: string;
     subtitle: string;
-    entity?: DocumentReference<EntitiesModel>;
+    entity?: DocumentReference<FirebaseFirestore.DocumentData>;
     address: string;
-    owner: DocumentReference<UsersModel>;
+    owner: DocumentReference<FirebaseFirestore.DocumentData>;
 }
 export interface IUserFavoriteLocations extends ILocationsModel {
     notes: string;
@@ -32,11 +30,11 @@ export class LocationsModel extends BaseModel {
     @IsString()
     public subtitle: string;
     @IsObject()
-    public entity?: DocumentReference<EntitiesModel>;
+    public entity?: DocumentReference<FirebaseFirestore.DocumentData>;
     @IsString()
     public address: string;
     @IsObject()
-    public owner: DocumentReference<UsersModel>;
+    public owner: DocumentReference<FirebaseFirestore.DocumentData>;
 
     constructor(params: ILocationsModel, validate: boolean = true) {
         super(params);

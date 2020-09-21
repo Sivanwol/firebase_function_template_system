@@ -36,6 +36,12 @@ class CacheDB<T extends DalModel> {
         return cachedFirestore;
     }
 }
+export * from './acl.model';
+export * from './users.model';
+export * from './entityHours.model';
+export * from './entities.model';
+export * from './locations.model';
+export {collection};
 
 export const entityModel = (new CacheDB<EntitiesModel>(EntitiesModel)).toCacheModel(collection.collectionEntities);
 export const entityHourModel = (new CacheDB<EntityHoursModel>(EntityHoursModel)).toCacheModel(collection.collectionEntityHours);

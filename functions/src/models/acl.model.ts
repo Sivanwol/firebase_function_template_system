@@ -7,7 +7,7 @@ export interface IPermissionsModel extends IBaseModel {
     is_active: boolean;
 }
 export interface IRolesModel extends IPermissionsModel {
-    permissions: DocumentReference<PermissionsModel>[];
+    permissions: DocumentReference<FirebaseFirestore.DocumentData>[];
 }
 
 export class PermissionsModel extends BaseModel {
@@ -32,7 +32,7 @@ export class PermissionsModel extends BaseModel {
 
 export class RolesModel extends PermissionsModel  {
     @IsObject({ each: true})
-    public permissions: DocumentReference<PermissionsModel>[];
+    public permissions: DocumentReference<FirebaseFirestore.DocumentData>[];
     constructor(params: IRolesModel, validate: boolean = true) {
         super(params, validate);
         this.permissions = params.permissions;
