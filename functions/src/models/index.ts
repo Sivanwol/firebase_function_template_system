@@ -4,7 +4,6 @@ import { Redis } from '@ehacke/redis';
 import admin from 'firebase-admin';
 import { EntitiesModel } from './entities.model';
 import collection from "../common/collections";
-import { EntityHoursModel } from './entityHours.model';
 const dbConnections = { firestore: admin.firestore(), redis: new Redis() };
 class CacheDB<T extends DalModel> {
     constructor(private fireStoreModel: T extends DalModel) { }
@@ -39,9 +38,8 @@ class CacheDB<T extends DalModel> {
 export * from './acl.model';
 export * from './users.model';
 export * from './entityHours.model';
-export * from './entities.model';
 export * from './locations.model';
-export {collection};
+
+export {collection , EntitiesModel};
 
 export const entityModel = (new CacheDB<EntitiesModel>(EntitiesModel)).toCacheModel(collection.collectionEntities);
-export const entityHourModel = (new CacheDB<EntityHoursModel>(EntityHoursModel)).toCacheModel(collection.collectionEntityHours);
