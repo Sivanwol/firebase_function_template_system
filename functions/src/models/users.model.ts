@@ -1,24 +1,22 @@
 import { BaseModel, IBaseModel } from "../common/base.model";
 import { GenderEnum } from "../common/enums";
-import { LocationsModel, UserFavoriteLocations } from "./locations.model";
 import { DocumentReference } from "@google-cloud/firestore";
-import { PermissionsModel, RolesModel } from "./acl.model";
 import { IsBoolean, IsEmail, IsEnum, IsObject, IsOptional, IsString } from "class-validator";
 
 export interface IUsersModel extends IBaseModel {
     uuid: string; // firebase user id
     loginToken: string;
-    location?: DocumentReference<LocationsModel>;
+    location?: DocumentReference<FirebaseFirestore.DocumentData>;
     email: string;
     phone: string;
     subtitle: string;
     gender: GenderEnum;
-    favoriteLocations: DocumentReference<UserFavoriteLocations>[];
+    favoriteLocations: DocumentReference<FirebaseFirestore.DocumentData>[];
     allow_location: boolean;
     approved_email: boolean;
     first_time_login: boolean;
-    roles: DocumentReference<RolesModel>[];
-    permissions:  DocumentReference<PermissionsModel>[];
+    roles: DocumentReference<FirebaseFirestore.DocumentData>[];
+    permissions:  DocumentReference<FirebaseFirestore.DocumentData>[];
 }
 
 export class UsersModel extends BaseModel  {
@@ -28,7 +26,7 @@ export class UsersModel extends BaseModel  {
     public loginToken: string;
     @IsObject()
     @IsOptional()
-    public location?: DocumentReference<LocationsModel>;
+    public location?: DocumentReference<FirebaseFirestore.DocumentData>;
     @IsEmail()
     public email: string;
     @IsString()
@@ -37,7 +35,7 @@ export class UsersModel extends BaseModel  {
     @IsEnum(GenderEnum)
     public gender: GenderEnum;
     @IsObject({ each: true })
-    public favoriteLocations: DocumentReference<UserFavoriteLocations>[];
+    public favoriteLocations: DocumentReference<FirebaseFirestore.DocumentData>[];
     @IsBoolean()
     public allow_location: boolean;
     @IsBoolean()
@@ -45,9 +43,9 @@ export class UsersModel extends BaseModel  {
     @IsBoolean()
     public first_time_login: boolean;
     @IsObject({ each: true })
-    public roles: DocumentReference<RolesModel>[];
+    public roles: DocumentReference<FirebaseFirestore.DocumentData>[];
     @IsObject({ each: true })
-    public permissions:  DocumentReference<PermissionsModel>[];
+    public permissions:  DocumentReference<FirebaseFirestore.DocumentData>[];
     constructor(params: IUsersModel, validate: boolean = true) {
         super(params);
         this.uuid = params.uuid;

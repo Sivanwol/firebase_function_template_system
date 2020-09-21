@@ -37,7 +37,7 @@ export class EntityHoursRequest {
     @IsBoolean()
     public all_day: boolean;
 
-    public toEntityHourModel(entity:DocumentReference<EntitiesModel>): EntityHoursModel {
+    public toEntityHourModel(entity:DocumentReference<FirebaseFirestore.DocumentData>): EntityHoursModel {
         return new EntityHoursModel({
             id: null,
             entity,
@@ -101,7 +101,7 @@ export class EntityRequest {
         }, false);
     }
 
-    public toEntityHoursModel(entity: DocumentReference<EntitiesModel>): EntityHoursModel[] {
+    public toEntityHoursModel(entity: DocumentReference<FirebaseFirestore.DocumentData>): EntityHoursModel[] {
         return this.hours.map(hour => {
             const model = new EntityHoursRequest();
             model.day = hour.day;

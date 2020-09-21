@@ -2,10 +2,9 @@ import { DocumentReference } from "@google-cloud/firestore";
 import { IsString, IsEnum, IsOptional, IsBoolean, IsObject, Length, Matches } from "class-validator";
 import { BaseModel, IBaseModel } from "../common/base.model";
 import { DayOfWeek } from "../common/enums";
-import { EntitiesModel } from "./entities.model";
 
 export interface IEntityHoursModel extends IBaseModel {
-    entity: DocumentReference<EntitiesModel>;
+    entity: DocumentReference<FirebaseFirestore.DocumentData>;
     day: DayOfWeek;
     from: string;
     to: string;
@@ -14,7 +13,7 @@ export interface IEntityHoursModel extends IBaseModel {
 }
 export class EntityHoursModel extends BaseModel {
     @IsObject()
-    public entity: DocumentReference<EntitiesModel>;
+    public entity: DocumentReference<FirebaseFirestore.DocumentData>;
     @IsEnum(DayOfWeek)
     public day: DayOfWeek;
     @IsOptional()

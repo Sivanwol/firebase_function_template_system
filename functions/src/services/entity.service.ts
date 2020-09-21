@@ -11,10 +11,10 @@ class EntityService {
             data.hours = []; // something send wrong hours need be 7 recorded or null/undefined (when user didn't want set up)
         }
         const docRef = await EntityRepository.create(data.toEntityModel());
-        const entity_id = docRef!.id;
+        const entity_id = docRef.model!.id;
         if (entity_id) {
             if (data.hours.length === 7) {
-                await EntityRepository.createEntityHour(data.toEntityHoursModel(docRef));
+                await EntityRepository.createEntityHour(data.toEntityHoursModel(docRef.ref));
 
             }
         }
@@ -51,7 +51,7 @@ class EntityService {
         return entity;
     }
 
-    public async updateEntity(entity_id: string, data: EntityRequest): Promise<EntitiesModel | null> {
+    public async updateEntity(entity_id: string, data: EntityRequest): Promise<boolean> {
         const foundEntity = await this.locateEntity(entity_id);
         if (foundEntity) {
             if (!data.hasOwnProperty("hours") || (data.hours && data.hours.length !== 7)) {
@@ -59,9 +59,9 @@ class EntityService {
             }
             await EntityRepository.updateEntity(entity_id, data.toEntityModel());
             await EntityRepository.updateEntityHours(entity_id, data.toEntityHoursModel(entity_id));
-            return await this.getEntity(entity_id);
+            return true;
         }
-        return null;
+        return false;
     }
     public async deleteEntity(entity_id: string): Promise<boolean> {
         const foundEntity = await this.locateEntity(entity_id);
