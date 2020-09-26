@@ -1,5 +1,5 @@
 import { IsString, IsBoolean, IsOptional, IsDateString, IsObject } from "class-validator";
-import moment = require("moment");
+import moment from "moment";
 import { SortDirection } from "./enums";
 
 export class BaseResponse<T> {
@@ -27,7 +27,7 @@ export class ListResponse<T> {
         total_entities: number,
         last_offset_id: string,
         sort_field: string,
-        sort_direction: SortDirection
+        sort_dir: SortDirection
     };
     public items: T[] = [];
 

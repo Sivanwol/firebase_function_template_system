@@ -1,4 +1,3 @@
-import { DocumentReference } from '@google-cloud/firestore';
 import { IsArray, IsEnum, IsISO31661Alpha2, IsObject, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 import { BaseModel, IBaseModel } from "../common/base.model";
 import { EntityStatus, EntityType, EntityVisibility } from "../common/enums";

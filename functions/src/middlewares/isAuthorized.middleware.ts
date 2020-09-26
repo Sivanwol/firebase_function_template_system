@@ -3,7 +3,7 @@ import AclService from "../services/acl.service";
 
 export function isAuthorized(opts: { hasRoles: string[], hasPermissions: string[], allowSameUser?: boolean }) {
     return (req: Request, res: Response, next: Function) => {
-        const { roles, permissions, email, uid } = res.locals;
+        const { roles, permissions, uid } = res.locals;
         const { id } = req.params;
 
         if (opts.allowSameUser && id && uid === id) {

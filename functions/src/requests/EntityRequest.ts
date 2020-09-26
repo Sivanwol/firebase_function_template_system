@@ -3,7 +3,6 @@ import { IsBoolean, IsInt, IsOptional, IsEnum, IsUrl, MaxLength, IsString, Valid
 import { EntitiesModel } from "../models/entities.model";
 import { EntityHoursModel } from '../models/entityHours.model';
 import moment from "moment";
-import { DocumentReference } from "@google-cloud/firestore";
 
 export class EntitySocial {
     @IsOptional()
@@ -37,18 +36,14 @@ export class EntityHoursRequest {
     @IsBoolean()
     public all_day: boolean;
 
-    public toEntityHourModel(entity:DocumentReference<FirebaseFirestore.DocumentData>): EntityHoursModel {
+    public toEntityHourModel(): EntityHoursModel {
         return new EntityHoursModel({
-            id: null,
-            entity,
             day: this.day,
             from: this.from || "",
             to: this.to || "",
             close: this.close || false,
             all_day: this.all_day || false,
-            createdAt: moment().toDate(),
-            updatedAt: moment().toDate(),
-        }, false);
+        });
     }
 }
 export class EntityRequest {
@@ -68,7 +63,7 @@ export class EntityRequest {
     public description: string;
     @IsOptional()
     @ValidateNested({ each: true })
-    public hours: EntityHoursRequest[];
+    public hours: EntityHoursModel[];
     @IsPhoneNumber(null)
     public phone: string;
     @IsString()
@@ -90,7 +85,7 @@ export class EntityRequest {
             name: this.name,
             alias_name: this.alias_name,
             description: this.description,
-            hours: [],
+            hours: this.hours,
             phone: this.phone,
             country: this.country,
             city: this.city,
@@ -99,17 +94,5 @@ export class EntityRequest {
             createdAt: moment().toDate(),
             updatedAt: moment().toDate(),
         }, false);
-    }
-
-    public toEntityHoursModel(entity: DocumentReference<FirebaseFirestore.DocumentData>): EntityHoursModel[] {
-        return this.hours.map(hour => {
-            const model = new EntityHoursRequest();
-            model.day = hour.day;
-            model.to = hour.to;
-            model.from = hour.from;
-            model.close = hour.close;
-            model.all_day = hour.all_day;
-            return model.toEntityHourModel(entity);
-        });
     }
 }
