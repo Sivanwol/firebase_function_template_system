@@ -1,5 +1,4 @@
-import { DocumentReference } from "@google-cloud/firestore";
-import { IsString, IsEnum, IsOptional, IsBoolean, IsObject, Length, Matches } from "class-validator";
+import { IsString, IsEnum, IsOptional, IsBoolean, Length, Matches } from "class-validator";
 import { BlankModel, IBlankModel } from "../common/base.model";
 import { DayOfWeek } from "../common/enums";
 
@@ -30,16 +29,12 @@ export class EntityHoursModel extends BlankModel {
     @IsBoolean()
     public all_day: boolean;
 
-    constructor(params: IEntityHoursModel, validate: boolean = true) {
+    constructor(params: IEntityHoursModel) {
         super(params);
         this.all_day = params.all_day;
         this.day = params.day;
         this.from = params.from;
         this.to = params.to;
         this.close = params.close;
-
-        if (validate) {
-            this.validate();
-        }
     }
 }

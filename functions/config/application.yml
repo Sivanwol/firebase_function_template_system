@@ -1,4 +1,4 @@
 application:
     settings:
-        logger: !!inc/file log.yml
+        logs: !!inc/file log.yml
         redis: !!inc/file redis.yml

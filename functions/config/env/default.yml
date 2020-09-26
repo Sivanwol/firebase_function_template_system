@@ -1,4 +1,6 @@
 application:
     settings:
+        logs: 
+            level: debug
         redis:
-            url: redis://127.0.0.1:6380/2
+            url: redis://127.0.0.1:6380/0

@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "lib": ["es2017"],
+    "lib": ["es2017", "dom"],
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "esModuleInterop": true,
@@ -19,6 +19,6 @@
     "src"
   ],
   "exclude": [
-      "env.template.js",
+    "node_modules/firebase/index.d.ts"
   ]
 }

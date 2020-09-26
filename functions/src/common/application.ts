@@ -1,40 +1,36 @@
-import * as functions from "firebase-functions";
+
 import winston, { Logger } from 'winston';
-import LogzioWinstonTransport from 'winston-logzio';
+import { LoggingWinston } from '@google-cloud/logging-winston';
+
 import { get } from "lodash";
-const functionConfig = () => {
-    if (process.env.RUN_LOCALLY) {
-        const fs = require('fs');
-        return JSON.parse(fs.readFileSync('env.json'));
-    } else {
-        return functions.config();
-    }
-};
+import { functionConfig } from './utils';
+
+
 export class ApplicationHandler {
     private appConfig: any;
     private logger: Logger;
     constructor() {
         const cnf = functionConfig();
-        if (cnf.activeEnv && cnf[cnf.activeEnv]) {
-            this.appConfig = cnf[cnf.activeEnv];
+        if (cnf) {
+            this.appConfig = cnf;
         } else {
             throw new Error("Application Error Configuration Missing");
         }
-
-        const loggerOptions = {
-            level: get(this.appConfig, 'logger.level'),
-            name: 'winston_logzio',
-            token: get(this.appConfig, 'logger.token'),
-            host: 'listener-eu.logz.io',
-        };
-        const logzIOTransport = new (LogzioWinstonTransport)(loggerOptions);
+        const loggingWinston = new LoggingWinston({
+            serviceContext: {
+                service: 'backend-service', // required to report logged errors
+            },
+        });
         this.logger = winston.createLogger({
+            level: get(this.appConfig, 'settings.logs.level'),
             format: winston.format.simple(),
             transports: [
-                logzIOTransport
+                new winston.transports.Console(),
+                // Add Stackdriver Logging
+                loggingWinston,
             ],
             exceptionHandlers: [
-                logzIOTransport,
+                loggingWinston,
             ]
         });
 

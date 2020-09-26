@@ -1,5 +1,6 @@
 import { IsPositive, IsEnum, IsOptional, IsNumber, IsString } from "class-validator";
-import { SORT_DIRECTION } from "simple-cached-firestore";
+import { SortDirection } from "../../common/enums";
+
 export class ListQuery {
     @IsOptional()
     @IsNumber()
@@ -13,6 +14,6 @@ export class ListQuery {
     public sortField = "id";
 
     @IsOptional()
-    @IsEnum(SORT_DIRECTION)
-    public sortDirection: SORT_DIRECTION = SORT_DIRECTION.DESC;
+    @IsEnum(SortDirection)
+    public sortDirection: SortDirection = SortDirection.DESC;
 }

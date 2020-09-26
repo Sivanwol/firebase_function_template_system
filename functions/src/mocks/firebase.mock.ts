@@ -1,5 +1,5 @@
 /* tslint:disable */
-import * as EventEmitter from "eventemitter3";
+import EventEmitter from "eventemitter3";
 import { FirebaseHandler } from "../common/firebase";
 // import * as admin from 'firebase-admin';
 

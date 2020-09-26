@@ -2,7 +2,7 @@
 for kick of the project need install the following packages as global
 - `npm install -g firebase-tools`
 - `npm install -g gulp-cli`
-
+also need install google cloud cli tool -> https://cloud.google.com/sdk/gcloud
 
 # Commands
  the project has few commands to use
