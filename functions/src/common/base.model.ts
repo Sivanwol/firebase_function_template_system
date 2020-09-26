@@ -7,7 +7,15 @@ export interface IBaseModel {
     createdAt: Date;
     updatedAt: Date;
 }
+export interface IBlankModel {
+} 
 
+
+export class BlankModel extends ValidatedBase implements IBlankModel {
+    constructor(params: IBlankModel) {
+        super();
+    }
+}
 export class BaseModel extends ValidatedBase implements IBaseModel {
     @IsString()
     public id: string;

@@ -2,6 +2,7 @@ import { DocumentReference } from '@google-cloud/firestore';
 import { IsArray, IsEnum, IsISO31661Alpha2, IsObject, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 import { BaseModel, IBaseModel } from "../common/base.model";
 import { EntityStatus, EntityType, EntityVisibility } from "../common/enums";
+import { EntityHoursModel } from '.';
 
 export interface IEntitiesModel extends IBaseModel {
     type: EntityType;
@@ -19,11 +20,11 @@ export interface IEntitiesModel extends IBaseModel {
     phone: string;
     country: string;
     city: string;
-    breaches?: DocumentReference<FirebaseFirestore.DocumentData>[];
-    parking_location?: DocumentReference<FirebaseFirestore.DocumentData>[];
-    main_location?: DocumentReference<FirebaseFirestore.DocumentData>;
+    breaches?: string[];
+    parking_location?: string[];
+    main_location?: string;
     location_group_id?: string;
-    hours?: DocumentReference<FirebaseFirestore.DocumentData>[];
+    hours?: EntityHoursModel[];
     visibility: EntityVisibility;
 }
 export class EntitiesModel extends BaseModel {
@@ -75,15 +76,15 @@ export class EntitiesModel extends BaseModel {
     public city: string;
     @IsArray()
     @IsObject({ each: true })
-    public breaches?: DocumentReference<FirebaseFirestore.DocumentData>[];
+    public breaches?: string[];
     @IsArray()
-    public parking_location?: DocumentReference<FirebaseFirestore.DocumentData>[];
+    public parking_location?: string[];
     @IsString()
-    public main_location?: DocumentReference<FirebaseFirestore.DocumentData>;
+    public main_location?: string;
     @IsString()
     public location_group_id?: string;
     @IsArray()
-    public hours?: DocumentReference<FirebaseFirestore.DocumentData>[];
+    public hours?: EntityHoursModel[];
     @IsEnum(EntityVisibility)
     public visibility: EntityVisibility;
     constructor(params: IEntitiesModel, validate: boolean = true) {
