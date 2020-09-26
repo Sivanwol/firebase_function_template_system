@@ -1,0 +1,4 @@
+application:
+    settings:
+        logger: !!inc/file log.yml
+        redis: !!inc/file redis.yml
