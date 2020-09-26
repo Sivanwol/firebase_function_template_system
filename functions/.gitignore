@@ -1,8 +1,11 @@
 ## Compiled JavaScript files
 **/*.js
 **/*.js.map
+!gulpfile.js
 !rollup.config.js
 # Typescript v1 declaration files
+.idea
+.DS_Store
 typings/
 firebase-*.log
 node_modules/
@@ -14,3 +17,7 @@ coverage
 node_modules/
 !jest.config.js
 .env.json
+.tmp/
+config/env/*.yml
+config/env/*.yaml
+!config/env/default.yml
