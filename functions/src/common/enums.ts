@@ -38,3 +38,8 @@ export enum HttpStatusCode {
     Error = 500,
     Success = 200,
 }
+
+export enum SortDirection {
+    ASC,
+    DESC,
+}

@@ -44,7 +44,7 @@ class EntityService {
             entity.id = entity_id;
             const hours = await EntityRepository.getEntityHours(entity_id);
             if (hours.size === 7) {
-                entity.hours = map(hours.items, (hour) => hour.docRef);
+                entity.hours = map(hours.items, (hour) => hour);
             } else {
                 entity.hours = [];
             }

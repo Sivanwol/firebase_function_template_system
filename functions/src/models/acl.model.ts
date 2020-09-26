@@ -1,4 +1,3 @@
-import { DocumentReference } from "@google-cloud/firestore";
 import { IsString, IsOptional, IsBoolean, IsObject } from "class-validator";
 import { BaseModel, IBaseModel } from "../common/base.model";
 export interface IPermissionsModel extends IBaseModel {
@@ -7,7 +6,7 @@ export interface IPermissionsModel extends IBaseModel {
     is_active: boolean;
 }
 export interface IRolesModel extends IPermissionsModel {
-    permissions: DocumentReference<FirebaseFirestore.DocumentData>[];
+    permissions: string[];
 }
 
 export class PermissionsModel extends BaseModel {
@@ -32,7 +31,7 @@ export class PermissionsModel extends BaseModel {
 
 export class RolesModel extends PermissionsModel  {
     @IsObject({ each: true})
-    public permissions: DocumentReference<FirebaseFirestore.DocumentData>[];
+    public permissions: string[];
     constructor(params: IRolesModel, validate: boolean = true) {
         super(params, validate);
         this.permissions = params.permissions;
