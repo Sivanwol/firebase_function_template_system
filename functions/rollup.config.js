@@ -1,5 +1,5 @@
 import resolve from 'rollup-plugin-node-resolve';
-
+import json from '@rollup/plugin-json';
 /**
  * Add here external dependencies that actually you use.
  */
@@ -28,7 +28,7 @@ const externals = [
 export default {
     input: 'tmp/index.js',
     external: externals,
-    plugins: [resolve()],
+    plugins: [resolve(),json()],
     onwarn: () => { return },
     output: {
         file: 'lib/index.js',

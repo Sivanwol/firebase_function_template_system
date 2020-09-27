@@ -20,8 +20,9 @@ export class ApplicationHandler {
                 service: 'backend-service', // required to report logged errors
             },
         });
+        console.log(this.appConfig);
         this.logger = winston.createLogger({
-            level: get(this.appConfig, 'settings.logs.level'),
+            level: get(this.appConfig, 'settings.logs.level' , 'debug'),
             format: winston.format.simple(),
             transports: [
                 new winston.transports.Console(),

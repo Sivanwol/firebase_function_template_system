@@ -31,6 +31,8 @@ class Api {
                     required: true,
                 },
             },
+            routePrefix: 'api',
+            development: true,
             cors: true,
             controllers: apiRoutes,
         });

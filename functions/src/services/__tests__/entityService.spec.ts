@@ -24,16 +24,16 @@ function requestNewEntityMock() {
         entityDataHour.from = `${faker.random.number({ min: 10, max: 15 })}:00`;
         entityDataHour.to = `${faker.random.number({ min: 16, max: 24 })}:00`;
         entityDataHour.day = i - 1;
-        entityData.hours.push(entityDataHour);
+        entityData.hours.push(entityDataHour.toEntityHourModel());
     }
     let entityDataHour = new EntityHoursRequest();
     entityDataHour.day = 6;
     entityDataHour.close = true;
-    entityData.hours.push(entityDataHour);
+    entityData.hours.push(entityDataHour.toEntityHourModel());
     entityDataHour = new EntityHoursRequest();
     entityDataHour.day = 7;
     entityDataHour.all_day = true;
-    entityData.hours.push(entityDataHour);
+    entityData.hours.push(entityDataHour.toEntityHourModel());
 
 
     entityData.phone = faker.phone.phoneNumber();

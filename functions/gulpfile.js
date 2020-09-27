@@ -28,7 +28,7 @@ gulp.task("compile:config:buildJson", function () {
 
 gulp.task("compile:config:moveJson", function () {
     return gulp.src('.tmp/application.json')
-        .pipe(rename(".env.json"))
+        .pipe(rename(".runtimeconfig.json"))
         .pipe(gulp.dest('./'))
 })
 
