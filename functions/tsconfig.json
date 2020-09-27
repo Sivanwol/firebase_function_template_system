@@ -10,6 +10,7 @@
     "strictPropertyInitialization": false,
     "noUnusedLocals": true,
     "outDir": "lib",
+    "resolveJsonModule": true,
     "sourceMap": true,
     "strict": false,
     "target": "es2017"
@@ -17,8 +18,5 @@
   "compileOnSave": true,
   "include": [
     "src"
-  ],
-  "exclude": [
-    "node_modules/firebase/index.d.ts"
   ]
 }

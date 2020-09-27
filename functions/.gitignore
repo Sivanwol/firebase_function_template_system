@@ -16,7 +16,7 @@ serviceAccountKey.json
 coverage
 node_modules/
 !jest.config.js
-.env.json
+.runtimeconfig.json
 .tmp/
 config/env/*.yml
 config/env/*.yaml
