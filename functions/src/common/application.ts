@@ -5,7 +5,6 @@ import { LoggingWinston } from '@google-cloud/logging-winston';
 import { get } from "lodash";
 import { functionConfig } from './utils';
 
-
 export class ApplicationHandler {
     private appConfig: any;
     private logger: Logger;
@@ -39,11 +38,12 @@ export class ApplicationHandler {
         });
         this.logger.info("system booting");
     }
-    public getConfig(): any {
+
+    public get Config(): any {
         return this.appConfig;
     }
 
-    public getLogger(): Logger {
+    public get Logger(): Logger {
         return this.logger;
     }
 }

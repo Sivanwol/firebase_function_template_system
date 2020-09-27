@@ -5,15 +5,14 @@ import { IsBoolean, IsEmail, IsEnum, IsObject, IsOptional, IsString } from "clas
 
 export interface IUsersModel extends IBaseModel {
     uuid: string; // firebase user id
-    loginToken: string;
     location?: DocumentReference<FirebaseFirestore.DocumentData>;
     email: string;
+    displayName: string;
     phone: string;
     subtitle: string;
     gender: GenderEnum;
     favoriteLocations: DocumentReference<FirebaseFirestore.DocumentData>[];
     allow_location: boolean;
-    approved_email: boolean;
     first_time_login: boolean;
     roles: DocumentReference<FirebaseFirestore.DocumentData>[];
     permissions:  DocumentReference<FirebaseFirestore.DocumentData>[];
@@ -23,7 +22,7 @@ export class UsersModel extends BaseModel  {
     @IsString()
     public uuid: string; // firebase user id
     @IsString()
-    public loginToken: string;
+    public displayName: string;
     @IsObject()
     @IsOptional()
     public location?: DocumentReference<FirebaseFirestore.DocumentData>;
@@ -39,8 +38,6 @@ export class UsersModel extends BaseModel  {
     @IsBoolean()
     public allow_location: boolean;
     @IsBoolean()
-    public approved_email: boolean;
-    @IsBoolean()
     public first_time_login: boolean;
     @IsObject({ each: true })
     public roles: DocumentReference<FirebaseFirestore.DocumentData>[];
@@ -50,13 +47,12 @@ export class UsersModel extends BaseModel  {
         super(params);
         this.uuid = params.uuid;
         this.allow_location = params.allow_location;
-        this.approved_email = params.approved_email;
         this.email = params.email;
         this.favoriteLocations = params.favoriteLocations;
         this.first_time_login = params.first_time_login;
         this.gender = params.gender;
         this.location = params.location;
-        this.loginToken = params.loginToken;
+        this.displayName = params.displayName;
         this.roles = params.roles;
         this.permissions = params.permissions;
 

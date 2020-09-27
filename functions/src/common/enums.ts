@@ -43,3 +43,9 @@ export enum SortDirection {
     ASC,
     DESC,
 }
+
+export enum UserAction {
+    Register,
+    UpdateACL,
+    RemoveUser,
+}
