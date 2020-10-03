@@ -1,38 +1,52 @@
 import resolve from 'rollup-plugin-node-resolve';
 import json from '@rollup/plugin-json';
-/**
- * Add here external dependencies that actually you use.
- */
-const externals = [
-    'cors',
-    'express',
-    'body-parser',
-    'axios',
-    'rxjs',
-    'class-transformer',
-    'class-validator',
-    '@google-cloud/firestore',
-    '@google-cloud/logging-winston',
-    'validated-base',
-    'lodash',
-    'winston',
-    'moment',
-    'eventemitter3',
-    'reflect-metadata',
-    'routing-controllers',
-    'simple-cached-firestore',
-    'firebase-functions',
-    'firebase-admin',
-];
+import replace from 'rollup-plugin-replace';
+import commonjs from 'rollup-plugin-commonjs';
+import builtins from 'rollup-plugin-node-builtins';
+import { terser } from "rollup-plugin-terser";
+import pkg from './package.json';
+import path from 'path';
+
+// eslint-disable-next-line no-shadow
+const onwarn = (warning, onwarn) =>
+	(warning.code === "MISSING_EXPORT" && /'preload'/.test(warning.message)) ||
+	(warning.code === "CIRCULAR_DEPENDENCY" &&
+		/[/\\]@sapper[/\\]/.test(warning.message)) ||
+	onwarn(warning);
+
+const mode = process.env.NODE_ENV;
+const dev = mode === 'development';
 
 export default {
     input: 'tmp/index.js',
-    external: externals,
-    plugins: [resolve(),json()],
-    onwarn: () => { return },
     output: {
         file: 'lib/index.js',
         format: 'cjs',
-        sourcemap: false
-    }
+        // plugins: [terser()],
+        sourcemap: true
+    },
+    plugins: [
+        replace({
+            'process.browser': false,
+            'process.env.NODE_ENV': JSON.stringify(mode),
+        }),
+        resolve({
+            mainFields: ['main', 'module', 'browser'],
+            main: true,
+            browser: false,
+            preferBuiltins: false
+        }),
+        json(),
+        commonjs({
+            include: "node_modules/**",
+            exclude: ["node_modules/aws-sdk/**"]
+        }),
+        builtins()
+    ],
+    external: Object.keys(pkg.dependencies).concat(
+        require("module").builtinModules
+    ),
+
+    preserveEntrySignatures: "strict",
+    onwarn,
 }
