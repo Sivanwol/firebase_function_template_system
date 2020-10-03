@@ -17,6 +17,7 @@ import moment from "moment";
 class Api {
     public app: Application;
     public appHandler: ApplicationHandler;
+    public firebase = null;
 
     constructor() {
         this.appHandler = new ApplicationHandler();
@@ -76,9 +77,11 @@ class Api {
 
     private firebaseSetup(): void {
         logger.info("Connection Firebase");
-        FirebaseHandler.setupFirebase(admin);
+        this.firebase = FirebaseHandler.setupFirebase(admin);
     }
 }
+const app = new Api();
+export const firebase = app.firebase;
 // webApi is your functions name, and you will pass this.api as a parameter
-export const webApi = functions.https.onRequest(new Api().app);
+export const webApi = functions.https.onRequest(app.app);
 // for more tasks please add below here

@@ -1,6 +1,7 @@
 
 import * as firebase from "firebase-admin";
 import * as serviceAccount  from "../serviceAccountKey.json";
+import firebaseEmulator from '@firebase/testing';
 // import { logger } from 'firebase-functions';
 const projectId = 'ictravel-dev-planning';
 export class FirebaseHandler {
@@ -13,9 +14,9 @@ export class FirebaseHandler {
         firebase.initializeApp(adminConfig);
         // firebase.initializeApp({ credential: firebase.credential.applicationDefault() });
         firebase.firestore().settings({ timestampsInSnapshots: true });
+        return adminConfig;
     }
     public static setupFirebaseTest(mockFirebase: any): void {
-        const firebaseEmulator = require('@firebase/testing');
         // initialize test database
         process.env.GCLOUD_PROJECT = projectId;
         process.env.FIRESTORE_EMULATOR_HOST = 'localhost:8080';
