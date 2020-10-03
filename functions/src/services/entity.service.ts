@@ -34,8 +34,8 @@ class EntityService {
                 last_offset_id: offset_id,
                 sort_field: sortField,
                 sort_dir: sortDirection,
-            }
-        }
+            },
+        };
     }
     public async locateEntity(entity_id: string): Promise<EntitiesModel | null> {
         const entity = await EntityRepository.locateEntity(entity_id);

@@ -45,7 +45,7 @@ class EntityRepository {
         }
         return { size: docs.size , items};
     }
-    public async updateEntityHours(entity_id: string ,entities: EntityHoursModel[]): Promise<void> {
+    public async updateEntityHours(entity_id: string, entities: EntityHoursModel[]): Promise<void> {
         const doc = await this.get(entity_id);
         if (doc) {
             doc.hours = entities;
@@ -84,19 +84,19 @@ class EntityRepository {
         batch.delete(docRef);
         await batch.commit();
     }
-    public async cleanOpeningHours(entity_id: string) : Promise<void> {
+    public async cleanOpeningHours(entity_id: string): Promise<void> {
         const doc = await this.get(entity_id);
         if (doc) {
             doc.hours = [];
             await this.updateEntity(entity_id, doc);
         }
     }
-    public async bulkDelete(entity_ids: string[]) : Promise<void> {
+    public async bulkDelete(entity_ids: string[]): Promise<void> {
         const batch = await firebase.firestore().batch();
         entity_ids.forEach(async entity_id => {
             const docRef = await firebase.firestore().collection(collections.collectionEntityHours).doc(entity_id);
             batch.delete(docRef);
-        })
+        });
         await batch.commit();
     }
 }

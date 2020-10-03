@@ -26,7 +26,7 @@ export class EntityController {
         return response;
     }
     @Get("/:entity_id")
-    public async getEntity(@Param("entity_id") entity_id: string): Promise<BaseResponse<EntitiesModel>>{
+    public async getEntity(@Param("entity_id") entity_id: string): Promise<BaseResponse<EntitiesModel>> {
         logger.info("request @GET(/entity/:entity_id) EntityController:getEntity", entity_id);
         const response = new BaseResponse<EntitiesModel>();
         try {
