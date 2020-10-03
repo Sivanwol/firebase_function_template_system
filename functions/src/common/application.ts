@@ -1,13 +1,8 @@
-
-import winston, { Logger } from 'winston';
-import { LoggingWinston } from '@google-cloud/logging-winston';
-
-import { get } from "lodash";
 import { functionConfig } from './utils';
+import { logger } from "firebase-functions";
 
 export class ApplicationHandler {
     private appConfig: any;
-    private logger: Logger;
     constructor() {
         const cnf = functionConfig();
         if (cnf) {
@@ -15,36 +10,13 @@ export class ApplicationHandler {
         } else {
             throw new Error("Application Error Configuration Missing");
         }
-        const loggingWinston = new LoggingWinston({
-            serviceContext: {
-                service: 'backend-service', // required to report logged errors
-            },
-        });
-        console.log(this.appConfig);
-        this.logger = winston.createLogger({
-            level: get(this.appConfig, 'settings.logs.level' , 'debug'),
-            format: winston.format.simple(),
-            transports: [
-                new winston.transports.Console(),
-                // Add Stackdriver Logging
-                loggingWinston,
-            ],
-            exceptionHandlers: [
-                loggingWinston,
-            ],
-        });
-
         process.on('uncaughtException', (err) => {
-            this.logger.error("UncaughtException processing: %s", err);
+            logger.error("UncaughtException processing: %s", err);
         });
-        this.logger.info("system booting");
+        logger.info("system booting");
     }
 
     public get Config(): any {
         return this.appConfig;
-    }
-
-    public get Logger(): Logger {
-        return this.logger;
     }
 }

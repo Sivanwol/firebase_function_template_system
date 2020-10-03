@@ -1,11 +1,9 @@
 
-import * as firebaseEmulator from '@firebase/testing';
 import * as firebase from "firebase-admin";
 import * as serviceAccount  from "../serviceAccountKey.json";
 // import { logger } from 'firebase-functions';
 const projectId = 'ictravel-dev-planning';
 export class FirebaseHandler {
-    public static db: firebase.firestore.Firestore | firebaseEmulator.firestore.Firestore;
 
     // tslint:disable-next-line: no-shadowed-variable
     public static setupFirebase(firebase: any): void {
@@ -17,6 +15,7 @@ export class FirebaseHandler {
         firebase.firestore().settings({ timestampsInSnapshots: true });
     }
     public static setupFirebaseTest(mockFirebase: any): void {
+        const firebaseEmulator = require('@firebase/testing');
         // initialize test database
         process.env.GCLOUD_PROJECT = projectId;
         process.env.FIRESTORE_EMULATOR_HOST = 'localhost:8080';
