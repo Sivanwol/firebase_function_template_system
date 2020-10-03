@@ -29,11 +29,10 @@
     "rules": "database.rules.json"
   },
   "storage": {
-    "rules": "storage.rules"
+    "rules": "storage.rules.json"
   },
   "emulators": {
     "functions": {
-      "host": "0.0.0.0",
       "port": 5050
     },
     "firestore": {
@@ -52,5 +51,8 @@
       "enabled": true,
       "port": 8181
     }
+  },
+  "remoteconfig": {
+    "template": "remoteconfig.template.json"
   }
 }
