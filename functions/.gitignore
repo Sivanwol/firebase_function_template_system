@@ -2,7 +2,7 @@
 **/*.js
 **/*.js.map
 !gulpfile.js
-!rollup.config.js
+!webpack.config.js
 # Typescript v1 declaration files
 .idea
 .DS_Store

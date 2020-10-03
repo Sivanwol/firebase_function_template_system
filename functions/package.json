@@ -6,19 +6,20 @@
         "environment": "test -f .runtimeconfig.json && firebase functions:config:unset env && firebase functions:config:set env=\"$(cat .runtimeconfig.json)\" || echo \"Please add the file .runtimeconfig.json before deploy.\"",
         "clean": "rimraf ./tmp && rimraf ./.tmp && rimraf ./lib/**/*",
         "build:dev": "npm run clean && npm run lint && tsc --watch",
-        "build:debug": "tsc -p tsconfig-build.json && npm run lint && npm run build:compile",
+        "build:debug": "tsc -p tsconfig-build.json && npm run build:compile",
         "build": "npm run clean &&  npm run copy:environment:develop && npm run environment && npm run build:compile",
         "build:compile": "node_modules/.bin/webpack --config ./webpack.config.js",
         "build:compile:watch": "node_modules/.bin/webpack --watch --config ./webpack.config.js",
         "serve:dev:config": "firebase functions:config:get > .runtimeconfig.json",
-        "serve:dev": "npm run copy:environment && concurrently \"npm run serve:dev:config && npm run build:dev\" \"npm run shell\"",
+        "serve:dev": "npm run copy:environment && concurrently \"npm run serve:dev:config && npm run build:compile:watch\" \"npm run emulators:start:dev\"",
         "serve": "npm run build ",
         "emulators:start": "firebase emulators:start",
+        "emulators:start:dev": "firebase emulators:start --only \"auth\",\"firestore\",\"database\",\"hosting\",\"pubsub\"",
         "shell": "firebase functions:shell --inspect-functions",
         "start": "npm run build && npm run shell",
         "deploy:dev": "firebase deploy --only functions",
         "logs": "firebase functions:log",
-        "lint": "tslint -p tsconfig.json src/**/*.ts -e __tests__/**/*.ts",
+        "lint": "tslint -p tsconfig.json src/**/*.ts -e __tests__/**/*.ts,mocks/**/*.ts",
         "test": "jest"
     },
     "main": "lib/index.js",
@@ -82,11 +83,6 @@
         "webpack-node-externals": "^2.5.2",
         "yamljs": "^0.3.0",
         "yargs": "^16.0.3"
-    },
-    "firestore-seed": {
-        "databaseURL": "https://xxxxxxx.firebaseio.com",
-        "credentialPath": "./firebase-credential.json",
-        "seedDataPath": "./seeds/"
     },
     "private": true
 }

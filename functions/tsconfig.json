@@ -18,5 +18,10 @@
   "compileOnSave": true,
   "include": [
     "src"
+  ],
+  "exclude": [
+      "**/__tests__/**",
+      "**/mocks/**",
+      "**/**.d.ts"
   ]
 }

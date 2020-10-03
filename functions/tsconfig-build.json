@@ -1,16 +1,11 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "target": "es6",
+    "target": "es2017",
     "module": "commonjs",
     "moduleResolution": "node",
     "esModuleInterop": true,
     "outDir": "tmp",
     
-  },
-  "exclude": [
-      "**/__tests__/**",
-      "**/mocks/**",
-      "**/**.d.ts"
-  ]
+  }
 }
