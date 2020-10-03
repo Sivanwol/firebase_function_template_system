@@ -4,4 +4,4 @@ export default {
     collectionsUsers: "users",
     collectionsRoles: "roles",
     collectionsPermissions: "permissions",
-}
+};

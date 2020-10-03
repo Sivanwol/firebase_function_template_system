@@ -14,9 +14,9 @@
         "emulators:start": "firebase emulators:start",
         "shell": "firebase functions:shell",
         "start": "npm run build && npm run shell",
-        "deploy": "firebase deploy --only functions",
+        "deploy:dev": "firebase deploy --only functions",
         "logs": "firebase functions:log",
-        "lint": "tslint -p tsconfig.json src/**/*.ts -e tests/**/*.ts",
+        "lint": "tslint -p tsconfig.json src/**/*.ts -e __tests__/**/*.ts",
         "test": "jest"
     },
     "main": "lib/index.js",

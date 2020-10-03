@@ -20,4 +20,4 @@ class AclRepository {
         return response;
     }
 }
-export default new AclRepository(); 
+export default new AclRepository();

@@ -4,7 +4,7 @@ import * as admin from "firebase-admin";
 import UsersRepository from "../repositories/Users.repository";
 
 class UsersService {
-    public async canUserRegister(email: string, phone: string): Promise<boolean> { 
+    public async canUserRegister(email: string, phone: string): Promise<boolean> {
         const isEmail = await UsersRepository.getUserByEmail(email);
         if (phone !== undefined) {
             return isEmail && !!(await UsersRepository.getUserByPhone(phone));

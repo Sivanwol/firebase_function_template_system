@@ -31,7 +31,7 @@ export class ApplicationHandler {
             ],
             exceptionHandlers: [
                 loggingWinston,
-            ]
+            ],
         });
 
         process.on('uncaughtException', (err) => {

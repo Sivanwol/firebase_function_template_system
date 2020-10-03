@@ -8,8 +8,7 @@ export interface IBaseModel {
     updatedAt: Date;
 }
 export interface IBlankModel {
-} 
-
+}
 
 export class BlankModel extends ValidatedBase implements IBlankModel {
     constructor(params: IBlankModel) {
