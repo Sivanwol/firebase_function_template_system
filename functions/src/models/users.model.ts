@@ -1,21 +1,20 @@
 import { BaseModel, IBaseModel } from "../common/base.model";
 import { GenderEnum } from "../common/enums";
-import { DocumentReference } from "@google-cloud/firestore";
 import { IsBoolean, IsEmail, IsEnum, IsObject, IsOptional, IsString } from "class-validator";
 
 export interface IUsersModel extends IBaseModel {
     uuid: string; // firebase user id
-    location?: DocumentReference<FirebaseFirestore.DocumentData>;
+    location?: string;
     email: string;
     displayName: string;
     phone: string;
     subtitle: string;
     gender: GenderEnum;
-    favoriteLocations: DocumentReference<FirebaseFirestore.DocumentData>[];
+    favoriteLocations: string[];
     allow_location: boolean;
     first_time_login: boolean;
-    roles: DocumentReference<FirebaseFirestore.DocumentData>[];
-    permissions:  DocumentReference<FirebaseFirestore.DocumentData>[];
+    roles: string[];
+    permissions: string[];
 }
 
 export class UsersModel extends BaseModel  {
@@ -25,7 +24,7 @@ export class UsersModel extends BaseModel  {
     public displayName: string;
     @IsObject()
     @IsOptional()
-    public location?: DocumentReference<FirebaseFirestore.DocumentData>;
+    public location?: string;
     @IsEmail()
     public email: string;
     @IsString()
@@ -34,15 +33,15 @@ export class UsersModel extends BaseModel  {
     @IsEnum(GenderEnum)
     public gender: GenderEnum;
     @IsObject({ each: true })
-    public favoriteLocations: DocumentReference<FirebaseFirestore.DocumentData>[];
+    public favoriteLocations: string[];
     @IsBoolean()
     public allow_location: boolean;
     @IsBoolean()
     public first_time_login: boolean;
     @IsObject({ each: true })
-    public roles: DocumentReference<FirebaseFirestore.DocumentData>[];
+    public roles: string[];
     @IsObject({ each: true })
-    public permissions:  DocumentReference<FirebaseFirestore.DocumentData>[];
+    public permissions:  string[];
     constructor(params: IUsersModel, validate: boolean = true) {
         super(params);
         this.uuid = params.uuid;

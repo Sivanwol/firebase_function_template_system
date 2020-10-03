@@ -26,3 +26,23 @@ the project has few commands to use
 
 for craete a user please open  shell command and there add this command
 ```createNewUser({ disabled: false, displayName: 'Renaud', email: 'fastwings@Gmail.com', emailVerified: true, metadata: {creationTime: null, lastSignInTime: null}, photoURL: null, providerData: [], uid: '123' })```</p>
+
+---
+
+
+### Deployment system
+
+there few deployment system support please check
+
+[https://app.buddy.works/wolberg/ic-travel-backend/pipelines](https://app.buddy.works/wolberg/ic-travel-backend/pipelines)
+
+this will cover and orignaize the work flow it self
+
+as well the unit test system
+
+## Deprecate Node Issue
+
+currently the firebase run on node 8 as well free on the bar so for now i run on this node need check and find when possible run with limiters the node 10 that will limit the charge rate as well give the basic options to support this.
+
+
+it known that many packages will be have issue with at so

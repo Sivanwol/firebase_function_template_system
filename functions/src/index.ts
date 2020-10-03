@@ -1,6 +1,7 @@
 import "reflect-metadata"; // this shim is required
 import * as admin from "firebase-admin";
 import * as functions from "firebase-functions";
+import { logger } from "firebase-functions";
 // import * as bodyParser from 'body-parser'
 // import * as cors from 'cors'
 import { Application, Request, Response } from "express";
@@ -36,7 +37,7 @@ class Api {
             cors: true,
             controllers: apiRoutes,
         });
-        this.appHandler.Logger.info("Started application");
+        logger.info("Started application");
         this.app.use((req: Request, res: Response, next: Function) => {
             res.locals = {
                 ...res.locals,
@@ -65,7 +66,7 @@ class Api {
                 createdAt: moment(user.metadata.creationTime).toDate(),
                 updatedAt: moment().toDate(),
             }, false);
-            this.appHandler.Logger.info(`New Register User, ${user.uid}`);
+            logger.info(`New Register User, ${user.uid}`);
             await UsersService.registerNewUser(userModel);
         });
     }
@@ -74,7 +75,7 @@ class Api {
     }
 
     private firebaseSetup(): void {
-        this.appHandler.Logger.info("Connection Firebase");
+        logger.info("Connection Firebase");
         FirebaseHandler.setupFirebase(admin);
     }
 }
