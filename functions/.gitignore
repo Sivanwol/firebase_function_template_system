@@ -13,6 +13,7 @@ serviceAccountKey.json
 .vscode/*
 !.vscode/launch.json
 .nyc_output
+lib
 coverage
 node_modules/
 !jest.config.js
