@@ -5,14 +5,16 @@ import { logger } from "firebase-functions";
 // import * as bodyParser from 'body-parser'
 // import * as cors from 'cors'
 import { Application, Request, Response } from "express";
-import { createExpressServer } from "routing-controllers";
+import { Action, createExpressServer } from "routing-controllers";
 import { apiRoutes } from "./routes";
 import { FirebaseHandler } from "./common/firebase";
 import { ApplicationHandler } from "./common/application";
 import { GenderEnum } from "./common/enums";
 import { UsersModel } from "./models";
 import UsersService from "./services/users.service";
+import * as passport from 'passport';
 import moment from "moment";
+import { Auth0strategy } from "./middlewares/Auth.middelware";
 
 class Api {
     public app: Application;
@@ -33,6 +35,22 @@ class Api {
                     required: true,
                 },
             },
+            authorizationChecker: async (action: Action, roles = []) =>  {
+                const req = action.request;
+                if (req.headers[this.appHandler.Config.ServiceTokenHeaderName] &&
+                    req.headers[this.appHandler.Config.ServiceTokenHeaderName] === this.appHandler.Config.ServiceToken) {
+                    return true;
+                }
+                const [err, user, info] = await passport.authenticate("auth0", {
+                    scope: roles,
+                });
+                if (err) {
+                    return false;
+                }
+                action.request.user = user;
+                return true;
+            },
+            currentUserChecker: (action: Action) => action.request.user,
             routePrefix: 'api',
             development: true,
             cors: true,
@@ -73,6 +91,18 @@ class Api {
     }
     private config(): void {
         this.bindingEvents();
+
+        const session = {
+            secret: process.env.SESSION_SECRET,
+            cookie: {},
+            resave: false,
+            saveUninitialized: false,
+        };
+        this.app.use(expressSession(session));
+
+        passport.use(Auth0strategy);
+        this.app.use(passport.initialize());
+        this.app.use(passport.session());
     }
 
     private firebaseSetup(): void {

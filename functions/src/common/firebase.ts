@@ -1,5 +1,10 @@
 
 import * as firebase from "firebase-admin";
+import 'firebase/firestore';
+import 'firebase/database';
+import 'firebase/firebase-auth';
+import 'firebase/messaging';
+import 'firebase/functions';
 import * as serviceAccount  from "../serviceAccountKey.json";
 import firebaseEmulator from '@firebase/testing';
 // import { logger } from 'firebase-functions';

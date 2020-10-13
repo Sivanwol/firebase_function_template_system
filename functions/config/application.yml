@@ -1,4 +1,9 @@
 application:
+    SESSION_SECRET: ''
+    ServiceToken: ''
+    ServiceTokenHeaderName: 'x-service-token'
+    ClientTokenHeaderName: 'x-service-client-token'
     settings:
         logs: !!inc/file log.yml
         redis: !!inc/file redis.yml
+        auth0: !!inc/file auth0.yml

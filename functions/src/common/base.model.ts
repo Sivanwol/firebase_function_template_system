@@ -1,7 +1,7 @@
 
 import { ValidatedBase } from 'validated-base';
 import { IsDate, IsString } from 'class-validator';
-import { toDate } from 'simple-cached-firestore';
+import moment from 'moment';
 export interface IBaseModel {
     id: string;
     createdAt: Date;
@@ -28,8 +28,8 @@ export class BaseModel extends ValidatedBase implements IBaseModel {
         super();
         this.id = params.id;
         // This toDate() is necessary to convert either ISO strings or Firebase Timestamps to Date objects
-        this.createdAt = toDate(params.createdAt);
-        this.updatedAt = toDate(params.updatedAt);
+        this.createdAt = moment(params.createdAt).toDate();
+        this.updatedAt = moment(params.updatedAt).toDate();
     }
 }
 
