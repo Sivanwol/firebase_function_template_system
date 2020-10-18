@@ -1,6 +1,6 @@
 application:
-    SESSION_SECRET: 6e5b4f108a31f7394450a19f37d83382019c8e2ee8173f49aef4b11c7d7067c7
-    ServiceToken: 06a3baeaa2c056e6548aa921b4c7845d2a8e2ea368ec2f354e7d0c9199cbdb37
+    SESSION_SECRET: 
+    ServiceToken: 
     settings:
         logs: 
             level: debug
@@ -8,6 +8,6 @@ application:
             url: redis://127.0.0.1:6380/0
         auth0:
             AUTH0_DOMAIN: ic-travel.eu.auth0.com
-            AUTH0_CLIENT_ID: fmupELobojgihzeK0KQHfc4QSCGLHVst
-            AUTH0_CLIENT_SECRET: j5zhmblNe8lMTRCYxHF7Cqpdga5fFqmE0QNBHDtLkzvE4G71fhZ0Kyt-KQF_ZNNg
+            AUTH0_CLIENT_ID: 
+            AUTH0_CLIENT_SECRET: 
             AUTH0_CALLBACK: http://localhost:5050/auth/callback
